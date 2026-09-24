@@ -3,12 +3,36 @@ import './WelcomeScreen.css'
 
 const STAR_COUNT = 90
 
+const dialogues = [
+  {
+    speaker: 'CDR LOWE',
+    location: 'LUNAR SURFACE',
+    text: "Houston, Moonix Base. We've reached the Shackleton rim.",
+  },
+  {
+    speaker: 'HOUSTON',
+    location: 'EARTH CONTROL',
+    text: 'Copy, Moonix Base. Signal is clear. Begin the surface assessment.',
+  },
+  {
+    speaker: 'LT. MAYA',
+    location: 'LUNAR SURFACE',
+    text: 'Commander, solar exposure is rising. We should choose our outpost location carefully.',
+  },
+  {
+    speaker: 'HOUSTON',
+    location: 'EARTH CONTROL',
+    text: 'Your mission begins now, Commander. Analyze the terrain and make your first decision.',
+  },
+]
+
 export default function WelcomeScreen() {
   const starFieldRef = useRef<HTMLDivElement>(null)
   const [voiceOn, setVoiceOn] = useState(true)
-  const [commText, setCommText] = useState('Welcome to Artemis Outpost, commander.')
+  const [commText, setCommText] = useState('Welcome to Moonix, commander.')
   const [beginBusy, setBeginBusy] = useState(false)
-
+  const [showMissionIntro, setShowMissionIntro] = useState(false)
+  const [dialogueIndex, setDialogueIndex] = useState(0)
   // Generate the twinkling starfield once on mount.
   useEffect(() => {
     const field = starFieldRef.current
@@ -53,10 +77,9 @@ export default function WelcomeScreen() {
     window.speechSynthesis.speak(u)
   }
 
-  // Greet the commander shortly after the scene loads.
   useEffect(() => {
     const t = setTimeout(
-      () => speak("Welcome to Artemis Outpost, commander. We've been expecting you."),
+      () => speak("Welcome to Moonix, commander. We've been expecting you."),
       600
     )
     return () => clearTimeout(t)
@@ -72,12 +95,240 @@ export default function WelcomeScreen() {
   }
 
   const handleBegin = () => {
-    setCommText('Copy that, commander. Initiating site survey...')
-    speak('Copy that, commander. Initiating site survey.')
-    setBeginBusy(true)
-    setTimeout(() => setBeginBusy(false), 1800)
+  setCommText('Copy that, commander. Initiating site survey...')
+  speak('Copy that, commander. Initiating site survey.')
+
+  setBeginBusy(true)
+
+  setTimeout(() => {
+    setBeginBusy(false)
+    setShowMissionIntro(true)
+
+    setTimeout(() => {
+      speak(dialogues[0].text)
+    }, 400)
+  }, 2600)
+}
+
+
+
+  const handleNextDialogue = () => {
+
+    if (dialogueIndex < dialogues.length - 1) {
+
+      const next = dialogueIndex + 1
+
+      setDialogueIndex(next)
+
+      speak(dialogues[next].text)
+    }
   }
 
+
+
+  // ==========================
+// LUNAR SURFACE INTRO
+// ==========================
+
+if (showMissionIntro) {
+  const currentDialogue = dialogues[dialogueIndex]
+
+  return (
+    <div className="lunar-intro">
+
+      {/* SPACE BACKGROUND */}
+      <div className="lunar-stars" />
+
+      {/* EARTH */}
+      <div className="mission-earth">
+        <div className="earth-land" />
+        <div className="earth-glow" />
+      </div>
+
+      <div className="earth-label">
+        EARTH CONTROL
+        <span>SIGNAL ACTIVE</span>
+      </div>
+
+      {/* RADIO SIGNAL */}
+      <div className="signal signal-one" />
+      <div className="signal signal-two" />
+      <div className="signal signal-three" />
+
+      {/* MISSION HUD */}
+      <div className="mission-hud">
+        <span>Moonix// LUNAR SURFACE</span>
+
+        <span className="mission-status">
+          ● COMM ONLINE
+        </span>
+      </div>
+
+      {/* MOON MOUNTAINS */}
+      <div className="lunar-mountain mountain-one" />
+      <div className="lunar-mountain mountain-two" />
+
+      {/* ASTRONAUT 1 */}
+      <div className="moon-astronaut astro-one">
+        <div className="helmet">
+          <div className="visor" />
+        </div>
+
+        <div className="astro-body">
+          <div className="life-pack" />
+        </div>
+
+        <div className="arm arm-left" />
+        <div className="arm arm-right" />
+
+        <div className="leg leg-left" />
+        <div className="leg leg-right" />
+      </div>
+
+      {/* ASTRONAUT 2 */}
+      <div className="moon-astronaut astro-two">
+        <div className="helmet">
+          <div className="visor" />
+        </div>
+
+        <div className="astro-body">
+          <div className="life-pack" />
+        </div>
+
+        <div className="arm arm-left" />
+        <div className="arm arm-right" />
+
+        <div className="leg leg-left" />
+        <div className="leg leg-right" />
+      </div>
+
+      {/* ASTRONAUT 3 */}
+      <div className="moon-astronaut astro-three">
+        <div className="helmet">
+          <div className="visor" />
+        </div>
+
+        <div className="astro-body">
+          <div className="life-pack" />
+        </div>
+
+        <div className="arm arm-left" />
+        <div className="arm arm-right" />
+
+        <div className="leg leg-left" />
+        <div className="leg leg-right" />
+      </div>
+
+      {/* MOON SURFACE */}
+      <div className="lunar-ground">
+
+        <div className="crater crater-one" />
+        <div className="crater crater-two" />
+        <div className="crater crater-three" />
+
+      </div>
+
+      {/* DIALOGUE */}
+      <div className="game-dialogue">
+
+        <div className="dialogue-header">
+
+          <div>
+            <span className="radio-dot" />
+
+            <span className="dialogue-speaker">
+              {currentDialogue.speaker}
+            </span>
+          </div>
+
+          <span className="dialogue-location">
+            {currentDialogue.location}
+          </span>
+
+        </div>
+
+        <div
+          key={dialogueIndex}
+          className="dialogue-text"
+        >
+          {currentDialogue.text}
+        </div>
+
+        <div className="dialogue-footer">
+
+          <span>
+            TRANSMISSION {dialogueIndex + 1}/{dialogues.length}
+          </span>
+
+          {dialogueIndex < dialogues.length - 1 ? (
+
+            <button
+              className="dialogue-next"
+              onClick={handleNextDialogue}
+            >
+              NEXT →
+            </button>
+
+          ) : (
+
+            <div className="mission-options">
+
+              <button>
+                SCAN CRATER
+              </button>
+
+              <button>
+                CHECK SOLAR ZONE
+              </button>
+
+              <button>
+                ANALYZE TERRAIN
+              </button>
+
+            </div>
+
+          )}
+
+        </div>
+
+      </div>
+
+      <div className="location-hud">
+        SHACKLETON CRATER RIM
+        <span>89.9°S // LUNAR SOUTH POLE</span>
+      </div>
+
+    </div>
+  )
+}
+
+  // ==========================
+  // LOADING PAGE VIEW
+  // ==========================
+  if (beginBusy) {
+    return (
+      <div className="ao-scene loading-page">
+        <div className="bg">
+          <div className="nebula nebula-a" />
+          <div className="nebula nebula-b" />
+          <div className="starfield" ref={starFieldRef} />
+        </div>
+        
+        <div className="loading-container">
+          <div className="loader-ring" />
+          <h2 className="loading-text">LOADING</h2>
+          <p className="loading-subtext">Initializing lunar outpost systems and calibrating life support...</p>
+          <div className="loader-progress">
+            <div className="loader-progress-bar" />
+          </div>
+        </div>
+      </div>
+    )
+  }
+
+  // ==========================
+  // WELCOME SCREEN VIEW
+  // ==========================
   return (
     <div className="ao-scene">
       <div className="bg">
@@ -201,9 +452,7 @@ export default function WelcomeScreen() {
         <div className="title-block">
           <div className="pill-badge">MISSION BRIEF</div>
           <h1>
-            ARTEMIS
-            <br />
-            OUTPOST
+           Moonix
           </h1>
           <p className="subtitle-text">
             Get ready to explore the lunar south pole.
@@ -220,7 +469,11 @@ export default function WelcomeScreen() {
         </div>
 
         <div className="cta-row">
-          <button className="btn-primary" onClick={handleBegin} disabled={beginBusy} style={{ opacity: beginBusy ? 0.6 : 1 }}>
+          <button 
+            className="btn-primary" 
+            onClick={handleBegin} 
+            disabled={beginBusy}
+          >
             BEGIN MISSION
           </button>
           <button className="btn-ghost" aria-pressed={voiceOn} onClick={toggleSound}>

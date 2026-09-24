@@ -167,4 +167,1184 @@
 
 
 
+/* ---------- FULL PAGE LOADING SCREEN ---------- */
+.ao-scene.loading-page {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
 
+.loading-container {
+  position: relative;
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  animation: fadeIn 0.5s ease-out;
+}
+
+.loading-text {
+  font-family: var(--disp);
+  font-size: clamp(36px, 8vw, 64px);
+  font-weight: 800;
+  color: var(--ink);
+  margin-top: 32px;
+  letter-spacing: 0.15em;
+  animation: pulse 1.5s ease-in-out infinite;
+}
+
+.loading-subtext {
+  font-family: var(--body);
+  color: var(--dim);
+  font-size: 16px;
+  margin-top: 12px;
+  letter-spacing: 0.08em;
+  max-width: 400px;
+}
+
+.loader-ring {
+  width: 72px;
+  height: 72px;
+  border: 4px solid rgba(255, 255, 255, 0.1);
+  border-top-color: var(--gold);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+.loader-progress {
+  width: 280px;
+  height: 6px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 3px;
+  margin-top: 32px;
+  overflow: hidden;
+}
+
+.loader-progress-bar {
+  height: 100%;
+  background: linear-gradient(90deg, var(--gold), #ff6b4a);
+  border-radius: 3px;
+  animation: loadProgress 2.5s ease-in-out forwards;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: scale(0.95); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; text-shadow: 0 0 20px rgba(255, 177, 0, 0.3); }
+  50% { opacity: 0.7; text-shadow: 0 0 5px rgba(255, 177, 0, 0.1); }
+}
+
+@keyframes loadProgress {
+  0% { width: 0%; }
+  20% { width: 15%; }
+  50% { width: 45%; }
+  80% { width: 85%; }
+  100% { width: 100%; }
+}
+
+
+
+/* =====================================================
+   LUNAR MISSION INTRO
+===================================================== */
+
+.lunar-intro {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  overflow: hidden;
+
+  background:
+    radial-gradient(circle at 70% 20%, rgba(45, 72, 125, 0.18), transparent 35%),
+    linear-gradient(
+      to bottom,
+      #02040d 0%,
+      #05091a 55%,
+      #101525 100%
+    );
+
+  color: white;
+  font-family: var(--body);
+}
+
+
+/* ======================
+   STARS
+====================== */
+
+.lunar-stars {
+  position: absolute;
+  inset: 0;
+
+  background-image:
+    radial-gradient(circle at 10% 20%, white 1px, transparent 1px),
+    radial-gradient(circle at 20% 70%, white 1px, transparent 1px),
+    radial-gradient(circle at 30% 15%, white 1px, transparent 1px),
+    radial-gradient(circle at 45% 35%, white 1px, transparent 1px),
+    radial-gradient(circle at 55% 10%, white 1px, transparent 1px),
+    radial-gradient(circle at 68% 32%, white 1px, transparent 1px),
+    radial-gradient(circle at 80% 12%, white 1px, transparent 1px),
+    radial-gradient(circle at 90% 42%, white 1px, transparent 1px);
+
+  background-size: 180px 180px;
+
+  opacity: .7;
+
+  animation: starPulse 4s ease-in-out infinite alternate;
+}
+
+@keyframes starPulse {
+
+  from {
+    opacity: .35;
+  }
+
+  to {
+    opacity: .85;
+  }
+
+}
+
+
+/* ======================
+   EARTH
+====================== */
+
+.mission-earth {
+
+  position: absolute;
+
+  width: 110px;
+  height: 110px;
+
+  top: 11%;
+  right: 12%;
+
+  border-radius: 50%;
+
+  overflow: hidden;
+
+  background:
+    radial-gradient(
+      circle at 35% 30%,
+      #83d8ff,
+      #1673ba 45%,
+      #063f75 72%,
+      #02162c
+    );
+
+  box-shadow:
+    0 0 25px rgba(71, 167, 255, .8),
+    0 0 70px rgba(42, 116, 255, .25);
+
+  animation: earthFloat 5s ease-in-out infinite;
+}
+
+
+.earth-land {
+
+  position: absolute;
+
+  width: 65px;
+  height: 45px;
+
+  top: 25px;
+  left: 15px;
+
+  border-radius:
+    60% 40% 55% 35%;
+
+  background: #5fa95e;
+
+  transform: rotate(-18deg);
+
+  box-shadow:
+    35px 25px 0 -8px #4d8c50;
+}
+
+
+.earth-glow {
+
+  position: absolute;
+
+  inset: 0;
+
+  border-radius: 50%;
+
+  background:
+    radial-gradient(
+      circle at 30% 20%,
+      rgba(255,255,255,.4),
+      transparent 45%
+    );
+
+}
+
+
+@keyframes earthFloat {
+
+  0%,100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-10px);
+  }
+
+}
+
+
+/* ======================
+   EARTH LABEL
+====================== */
+
+.earth-label {
+
+  position: absolute;
+
+  top: 25%;
+  right: 10%;
+
+  text-align: center;
+
+  font-size: 10px;
+
+  letter-spacing: .2em;
+
+  color: #b9c7e4;
+}
+
+
+.earth-label span {
+
+  display: block;
+
+  color: #5be08a;
+
+  margin-top: 4px;
+
+  font-size: 8px;
+}
+
+
+/* ======================
+   SIGNAL
+====================== */
+
+.signal {
+
+  position: absolute;
+
+  top: 20%;
+  right: 18%;
+
+  border:
+
+    1px solid rgba(91, 224, 138, .4);
+
+  border-radius: 50%;
+
+  animation: signalPulse 2s infinite;
+
+}
+
+
+.signal-one {
+
+  width: 60px;
+  height: 60px;
+
+}
+
+
+.signal-two {
+
+  width: 90px;
+  height: 90px;
+
+  animation-delay: .4s;
+}
+
+
+.signal-three {
+
+  width: 120px;
+  height: 120px;
+
+  animation-delay: .8s;
+}
+
+
+@keyframes signalPulse {
+
+  from {
+
+    transform: scale(.3);
+
+    opacity: .8;
+
+  }
+
+  to {
+
+    transform: scale(1.5);
+
+    opacity: 0;
+
+  }
+
+}
+
+
+/* ======================
+   TOP HUD
+====================== */
+
+.mission-hud {
+
+  position: absolute;
+
+  top: 25px;
+  left: 5%;
+  right: 5%;
+
+  display: flex;
+
+  justify-content: space-between;
+
+  z-index: 20;
+
+  font-size: 11px;
+
+  letter-spacing: .16em;
+
+  color: #aab6d2;
+}
+
+
+.mission-status {
+
+  color: #5be08a;
+
+}
+
+
+/* ======================
+   MOON MOUNTAINS
+====================== */
+
+.lunar-mountain {
+
+  position: absolute;
+
+  bottom: 24%;
+
+  background:
+    linear-gradient(
+      135deg,
+      #565d69,
+      #1d222c
+    );
+
+  clip-path:
+    polygon(
+      0 100%,
+      25% 30%,
+      40% 55%,
+      60% 10%,
+      100% 100%
+    );
+
+}
+
+
+.mountain-one {
+
+  width: 650px;
+  height: 260px;
+
+  left: -100px;
+
+  opacity: .65;
+
+}
+
+
+.mountain-two {
+
+  width: 700px;
+  height: 230px;
+
+  right: -180px;
+
+  opacity: .45;
+
+}
+
+
+/* ======================
+   MOON SURFACE
+====================== */
+
+.lunar-ground {
+
+  position: absolute;
+
+  left: -5%;
+  right: -5%;
+
+  bottom: -10%;
+
+  height: 40%;
+
+  border-radius: 50% 50% 0 0;
+
+  background:
+
+    radial-gradient(
+      ellipse at 20% 30%,
+      #777,
+      transparent 10%
+    ),
+
+    radial-gradient(
+      ellipse at 65% 40%,
+      #656565,
+      transparent 12%
+    ),
+
+    linear-gradient(
+      #7e8085,
+      #3c3f46
+    );
+
+  box-shadow:
+
+    inset 0 30px 80px rgba(255,255,255,.08),
+
+    0 -10px 60px rgba(200,210,230,.08);
+
+}
+
+
+/* ======================
+   CRATERS
+====================== */
+
+.crater {
+
+  position: absolute;
+
+  border-radius: 50%;
+
+  border:
+
+    4px solid rgba(30,30,35,.35);
+
+  background:
+
+    radial-gradient(
+      ellipse,
+      #3b3d42,
+      #666970 60%,
+      #85878b
+    );
+
+}
+
+
+.crater-one {
+
+  width: 140px;
+  height: 38px;
+
+  left: 12%;
+  top: 30%;
+}
+
+
+.crater-two {
+
+  width: 90px;
+  height: 28px;
+
+  right: 20%;
+  top: 25%;
+}
+
+
+.crater-three {
+
+  width: 70px;
+  height: 20px;
+
+  left: 55%;
+  top: 60%;
+}
+
+
+/* =====================================================
+   ASTRONAUT
+===================================================== */
+
+.moon-astronaut {
+
+  position: absolute;
+
+  width: 90px;
+  height: 160px;
+
+  z-index: 8;
+
+  animation: moonWalk 3.4s ease-in-out infinite;
+
+}
+
+
+.astro-one {
+
+  left: 19%;
+  bottom: 24%;
+
+}
+
+
+.astro-two {
+
+  left: 38%;
+  bottom: 27%;
+
+  transform: scale(.8);
+
+  animation-delay: .7s;
+
+}
+
+
+.astro-three {
+
+  left: 55%;
+  bottom: 24%;
+
+  transform: scale(.9);
+
+  animation-delay: 1.4s;
+
+}
+
+
+/* HELMET */
+
+.helmet {
+
+  position: absolute;
+
+  width: 65px;
+  height: 62px;
+
+  left: 12px;
+
+  top: 0;
+
+  border-radius: 50%;
+
+  background: #e8edf3;
+
+  border: 3px solid #aeb8c5;
+
+}
+
+
+.visor {
+
+  position: absolute;
+
+  width: 49px;
+  height: 37px;
+
+  left: 5px;
+  top: 8px;
+
+  border-radius: 50%;
+
+  background:
+
+    linear-gradient(
+      135deg,
+      #8bdcff,
+      #183c67 65%,
+      #081c34
+    );
+
+  box-shadow:
+
+    inset 8px 6px 10px rgba(255,255,255,.2);
+
+}
+
+
+/* BODY */
+
+.astro-body {
+
+  position: absolute;
+
+  width: 62px;
+  height: 72px;
+
+  left: 14px;
+  top: 54px;
+
+  border-radius: 15px;
+
+  background:
+
+    linear-gradient(
+      90deg,
+      #c9d0d8,
+      #f5f7fa 45%,
+      #b9c2cd
+    );
+
+  border:
+
+    2px solid #929ba7;
+
+}
+
+
+.astro-body::after {
+
+  content: "";
+
+  position: absolute;
+
+  width: 25px;
+  height: 18px;
+
+  top: 20px;
+  left: 18px;
+
+  background: #27364f;
+
+  border-radius: 4px;
+
+  border: 2px solid #657690;
+
+}
+
+
+.life-pack {
+
+  position: absolute;
+
+  width: 15px;
+  height: 50px;
+
+  right: -10px;
+  top: 10px;
+
+  background: #818b98;
+
+  border-radius: 4px;
+
+}
+
+
+/* ARMS */
+
+.arm {
+
+  position: absolute;
+
+  width: 18px;
+  height: 65px;
+
+  top: 61px;
+
+  background: #e7ebef;
+
+  border-radius: 12px;
+
+  transform-origin: top;
+
+}
+
+
+.arm-left {
+
+  left: 6px;
+
+  transform: rotate(18deg);
+
+}
+
+
+.arm-right {
+
+  right: 5px;
+
+  transform: rotate(-20deg);
+
+}
+
+
+/* LEGS */
+
+.leg {
+
+  position: absolute;
+
+  width: 21px;
+  height: 55px;
+
+  top: 117px;
+
+  background: #dce1e7;
+
+  border-radius: 10px;
+
+  transform-origin: top;
+
+}
+
+
+.leg-left {
+
+  left: 21px;
+
+  transform: rotate(8deg);
+
+}
+
+
+.leg-right {
+
+  right: 20px;
+
+  transform: rotate(-8deg);
+
+}
+
+
+/* WALKING */
+
+@keyframes moonWalk {
+
+  0%,100% {
+
+    transform:
+      translateY(0)
+      rotate(-1deg);
+
+  }
+
+  50% {
+
+    transform:
+      translateY(-13px)
+      rotate(1deg);
+
+  }
+
+}
+
+
+/* =====================================================
+   GAME DIALOGUE
+===================================================== */
+
+.game-dialogue {
+
+  position: absolute;
+
+  z-index: 30;
+
+  width: min(700px, 88%);
+
+  left: 50%;
+
+  bottom: 5%;
+
+  transform:
+    translateX(-50%);
+
+  padding:
+    18px 22px;
+
+  background:
+
+    linear-gradient(
+      135deg,
+      rgba(7,15,32,.92),
+      rgba(15,25,48,.85)
+    );
+
+  border:
+
+    1px solid rgba(119,181,255,.4);
+
+  border-radius: 12px;
+
+  backdrop-filter: blur(15px);
+
+  box-shadow:
+
+    0 20px 60px rgba(0,0,0,.55),
+
+    inset 0 0 30px rgba(65,130,220,.05);
+
+  animation:
+    dialogueAppear .4s ease;
+
+}
+
+
+@keyframes dialogueAppear {
+
+  from {
+
+    opacity: 0;
+
+    transform:
+      translateX(-50%)
+      translateY(20px);
+
+  }
+
+  to {
+
+    opacity: 1;
+
+    transform:
+      translateX(-50%)
+      translateY(0);
+
+  }
+
+}
+
+
+/* HEADER */
+
+.dialogue-header {
+
+  display: flex;
+
+  justify-content: space-between;
+
+  align-items: center;
+
+  padding-bottom: 10px;
+
+  border-bottom:
+
+    1px solid rgba(255,255,255,.1);
+
+}
+
+
+.radio-dot {
+
+  display: inline-block;
+
+  width: 8px;
+  height: 8px;
+
+  margin-right: 8px;
+
+  border-radius: 50%;
+
+  background: #5be08a;
+
+  box-shadow:
+
+    0 0 10px #5be08a;
+
+}
+
+
+.dialogue-speaker {
+
+  color: #ffb100;
+
+  font-weight: 700;
+
+  letter-spacing: .12em;
+
+  font-size: 12px;
+
+}
+
+
+.dialogue-location {
+
+  color: #7e91b5;
+
+  font-size: 9px;
+
+  letter-spacing: .15em;
+
+}
+
+
+/* TEXT */
+
+.dialogue-text {
+
+  margin:
+
+    18px 0;
+
+  font-family: var(--disp);
+
+  font-size:
+
+    clamp(17px, 2vw, 22px);
+
+  line-height: 1.5;
+
+  color: #f0f4ff;
+
+  animation:
+
+    textAppear .45s ease;
+
+}
+
+
+@keyframes textAppear {
+
+  from {
+
+    opacity: 0;
+
+    transform:
+      translateY(7px);
+
+  }
+
+  to {
+
+    opacity: 1;
+
+    transform:
+      translateY(0);
+
+  }
+
+}
+
+
+/* FOOTER */
+
+.dialogue-footer {
+
+  display: flex;
+
+  justify-content: space-between;
+
+  align-items: center;
+
+  gap: 20px;
+
+  color: #71809f;
+
+  font-size: 9px;
+
+  letter-spacing: .12em;
+
+}
+
+
+/* NEXT BUTTON */
+
+.dialogue-next {
+
+  border: none;
+
+  padding:
+
+    9px 20px;
+
+  border-radius: 20px;
+
+  background: #ffb100;
+
+  color: #111;
+
+  font-weight: 800;
+
+  cursor: pointer;
+
+  transition: .2s;
+
+}
+
+
+.dialogue-next:hover {
+
+  transform:
+    translateX(4px);
+
+  box-shadow:
+
+    0 0 20px rgba(255,177,0,.35);
+
+}
+
+
+/* ======================
+   FINAL OPTIONS
+====================== */
+
+.mission-options {
+
+  display: flex;
+
+  gap: 8px;
+
+}
+
+
+.mission-options button {
+
+  padding:
+
+    8px 12px;
+
+  border-radius: 6px;
+
+  border:
+
+    1px solid rgba(90,160,255,.5);
+
+  background:
+
+    rgba(50,100,170,.15);
+
+  color: #dbe8ff;
+
+  font-size: 9px;
+
+  font-weight: 700;
+
+  letter-spacing: .08em;
+
+  cursor: pointer;
+
+  transition: .2s;
+
+}
+
+
+.mission-options button:hover {
+
+  background:
+
+    rgba(70,130,220,.4);
+
+  border-color: #77b5ff;
+
+  transform:
+
+    translateY(-2px);
+
+}
+
+
+/* ======================
+   LOCATION
+====================== */
+
+.location-hud {
+
+  position: absolute;
+
+  left: 4%;
+
+  bottom: 4%;
+
+  z-index: 20;
+
+  font-size: 9px;
+
+  letter-spacing: .15em;
+
+  color: #c0c8d9;
+
+}
+
+
+.location-hud span {
+
+  display: block;
+
+  margin-top: 5px;
+
+  color: #697895;
+
+}
+
+
+/* ======================
+   RESPONSIVE
+====================== */
+
+@media (max-width: 700px) {
+
+  .mission-earth {
+
+    width: 75px;
+    height: 75px;
+
+  }
+
+  .moon-astronaut {
+
+    transform: scale(.7);
+
+  }
+
+  .astro-one {
+
+    left: 8%;
+
+  }
+
+  .astro-two {
+
+    left: 35%;
+
+  }
+
+  .astro-three {
+
+    left: 62%;
+
+  }
+
+  .game-dialogue {
+
+    bottom: 3%;
+
+  }
+
+  .mission-options {
+
+    flex-direction: column;
+
+  }
+
+  .location-hud {
+
+    display: none;
+
+  }
+
+}
