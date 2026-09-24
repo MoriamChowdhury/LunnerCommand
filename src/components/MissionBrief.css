@@ -1,0 +1,1722 @@
+/* ======================================================
+   MOONIX — MISSION BRIEF
+====================================================== */
+
+.mission-brief {
+  --cyan: #58d8ff;
+  --cyan-soft: rgba(88, 216, 255, 0.18);
+  --blue: #3977b9;
+  --gold: #e6bb72;
+  --white: #f3f7fc;
+  --muted: #8b9caf;
+  --panel: rgba(7, 15, 27, 0.82);
+
+  position: relative;
+
+  width: 100%;
+  min-height: 100vh;
+
+  overflow: hidden;
+
+  color: var(--white);
+
+  background: #02060c;
+
+  font-family:
+    'Inter',
+    'Segoe UI',
+    sans-serif;
+
+  opacity: 0;
+
+  transition: opacity 1s ease;
+}
+
+.mission-brief.mission-loaded {
+  opacity: 1;
+}
+
+
+/* ======================================================
+   BACKGROUND
+====================================================== */
+
+.brief-space {
+  position: absolute;
+  inset: 0;
+
+  overflow: hidden;
+
+  background:
+    radial-gradient(
+      ellipse at 50% 115%,
+      rgba(24, 58, 86, 0.32),
+      transparent 52%
+    ),
+    radial-gradient(
+      ellipse at 80% 20%,
+      rgba(22, 58, 96, 0.18),
+      transparent 35%
+    ),
+    linear-gradient(
+      180deg,
+      #02050a 0%,
+      #040912 45%,
+      #07111c 100%
+    );
+}
+
+
+/* ======================================================
+   STARS
+====================================================== */
+
+.brief-stars {
+  position: absolute;
+  inset: -10%;
+
+  background-repeat: repeat;
+
+  animation:
+    briefStarDrift 90s
+    linear infinite;
+}
+
+.brief-stars-one {
+  opacity: 0.7;
+
+  background-image:
+    radial-gradient(
+      circle at 10% 20%,
+      #fff 0 1px,
+      transparent 1.4px
+    ),
+    radial-gradient(
+      circle at 35% 70%,
+      #fff 0 1px,
+      transparent 1.4px
+    ),
+    radial-gradient(
+      circle at 68% 30%,
+      #b8dcff 0 1px,
+      transparent 1.4px
+    ),
+    radial-gradient(
+      circle at 90% 80%,
+      #fff 0 1px,
+      transparent 1.4px
+    );
+
+  background-size:
+    220px 190px;
+}
+
+.brief-stars-two {
+  opacity: 0.3;
+
+  background-image:
+    radial-gradient(
+      circle at 20% 30%,
+      #fff 0 0.8px,
+      transparent 1.2px
+    ),
+    radial-gradient(
+      circle at 75% 60%,
+      #fff 0 0.8px,
+      transparent 1.2px
+    );
+
+  background-size:
+    110px 130px;
+
+  animation-duration: 140s;
+}
+
+@keyframes briefStarDrift {
+  to {
+    transform:
+      translate(-35px, 20px);
+  }
+}
+
+
+/* ======================================================
+   NEBULA
+====================================================== */
+
+.brief-nebula {
+  position: absolute;
+
+  border-radius: 50%;
+
+  filter: blur(100px);
+
+  pointer-events: none;
+}
+
+.brief-nebula-left {
+  width: 450px;
+  height: 450px;
+
+  left: -260px;
+  top: 20%;
+
+  background:
+    rgba(28, 102, 160, 0.12);
+}
+
+.brief-nebula-right {
+  width: 500px;
+  height: 500px;
+
+  right: -280px;
+  bottom: -100px;
+
+  background:
+    rgba(58, 116, 164, 0.1);
+}
+
+
+/* ======================================================
+   GRID
+====================================================== */
+
+.brief-grid {
+  position: absolute;
+
+  left: -20%;
+  right: -20%;
+
+  bottom: -28%;
+
+  height: 58%;
+
+  opacity: 0.13;
+
+  transform:
+    perspective(500px)
+    rotateX(63deg);
+
+  transform-origin: bottom;
+
+  background-image:
+    linear-gradient(
+      rgba(83, 193, 255, 0.18)
+      1px,
+      transparent 1px
+    ),
+    linear-gradient(
+      90deg,
+      rgba(83, 193, 255, 0.18)
+      1px,
+      transparent 1px
+    );
+
+  background-size:
+    55px 55px;
+}
+
+
+/* ======================================================
+   EARTH
+====================================================== */
+
+.brief-earth {
+  position: absolute;
+
+  top: 11%;
+  right: 4%;
+
+  width: 90px;
+  height: 90px;
+
+  border-radius: 50%;
+
+  overflow: hidden;
+
+  opacity: 0.55;
+
+  background:
+    radial-gradient(
+      circle at 32% 28%,
+      #76d6ff,
+      #277ab7 38%,
+      #0a3c68 68%,
+      #02101e
+    );
+
+  box-shadow:
+    0 0 30px
+    rgba(82, 180, 255, 0.28);
+
+  animation:
+    briefEarthFloat 8s
+    ease-in-out infinite;
+}
+
+.brief-earth-land {
+  position: absolute;
+
+  background:
+    rgba(95, 133, 80, 0.75);
+
+  border-radius:
+    50% 30% 60% 40%;
+}
+
+.land-a {
+  width: 42px;
+  height: 25px;
+
+  top: 20px;
+  left: 8px;
+
+  transform: rotate(18deg);
+}
+
+.land-b {
+  width: 25px;
+  height: 38px;
+
+  top: 43px;
+  right: 12px;
+
+  transform: rotate(-17deg);
+}
+
+.brief-earth-cloud {
+  position: absolute;
+
+  height: 5px;
+
+  border-radius: 50%;
+
+  background:
+    rgba(255, 255, 255, 0.4);
+
+  filter: blur(1px);
+}
+
+.cloud-a {
+  width: 46px;
+
+  left: 12px;
+  top: 30px;
+
+  transform: rotate(-10deg);
+}
+
+.cloud-b {
+  width: 34px;
+
+  right: 10px;
+  top: 58px;
+
+  transform: rotate(15deg);
+}
+
+.brief-earth-shadow {
+  position: absolute;
+  inset: 0;
+
+  background:
+    linear-gradient(
+      110deg,
+      transparent 35%,
+      rgba(0, 0, 0, 0.82)
+      82%
+    );
+}
+
+@keyframes briefEarthFloat {
+  50% {
+    transform: translateY(-8px);
+  }
+}
+
+
+/* ======================================================
+   MOON DECORATION
+====================================================== */
+
+.brief-moon {
+  position: absolute;
+
+  left: -170px;
+  bottom: -250px;
+
+  width: 500px;
+  height: 500px;
+
+  border-radius: 50%;
+
+  overflow: hidden;
+
+  opacity: 0.23;
+
+  background:
+    radial-gradient(
+      circle at 32% 27%,
+      #d8d8d2,
+      #818388 55%,
+      #3c3e43 100%
+    );
+
+  box-shadow:
+    0 0 100px
+    rgba(210, 220, 235, 0.08);
+}
+
+.brief-moon-crater {
+  position: absolute;
+
+  border-radius: 50%;
+
+  background:
+    rgba(45, 47, 51, 0.45);
+
+  box-shadow:
+    inset 7px 8px 12px
+    rgba(0, 0, 0, 0.4);
+}
+
+.crater-one {
+  width: 70px;
+  height: 55px;
+
+  left: 180px;
+  top: 90px;
+}
+
+.crater-two {
+  width: 42px;
+  height: 35px;
+
+  left: 290px;
+  top: 180px;
+}
+
+.crater-three {
+  width: 100px;
+  height: 70px;
+
+  left: 120px;
+  top: 270px;
+}
+
+.brief-moon-shadow {
+  position: absolute;
+  inset: 0;
+
+  background:
+    linear-gradient(
+      110deg,
+      transparent,
+      rgba(0, 0, 0, 0.55)
+    );
+}
+
+
+/* ======================================================
+   TOP BAR
+====================================================== */
+
+.brief-topbar {
+  position: relative;
+  z-index: 10;
+
+  height: 74px;
+
+  display: grid;
+
+  grid-template-columns:
+    1fr auto 1fr;
+
+  align-items: center;
+
+  padding: 0 4%;
+
+  border-bottom:
+    1px solid
+    rgba(116, 184, 225, 0.1);
+
+  background:
+    linear-gradient(
+      180deg,
+      rgba(5, 12, 22, 0.82),
+      rgba(5, 12, 22, 0.15)
+    );
+}
+
+.brief-brand {
+  display: flex;
+  align-items: center;
+
+  gap: 10px;
+}
+
+.brand-moon {
+  color: var(--cyan);
+
+  font-size: 30px;
+
+  filter:
+    drop-shadow(
+      0 0 8px
+      rgba(88, 216, 255, 0.3)
+    );
+}
+
+.brief-brand div {
+  display: flex;
+  flex-direction: column;
+}
+
+.brief-brand strong {
+  font-size: 14px;
+
+  letter-spacing: 0.2em;
+}
+
+.brief-brand small {
+  margin-top: 2px;
+
+  color: #60778c;
+
+  font-size: 6px;
+
+  letter-spacing: 0.18em;
+}
+
+.brief-top-center {
+  display: flex;
+  gap: 12px;
+
+  color: #60778c;
+
+  font-size: 8px;
+
+  letter-spacing: 0.15em;
+}
+
+.brief-separator {
+  color: var(--cyan);
+}
+
+.brief-system-online {
+  justify-self: end;
+
+  display: flex;
+  align-items: center;
+
+  gap: 8px;
+
+  color: #80caa3;
+
+  font-size: 7px;
+
+  letter-spacing: 0.15em;
+}
+
+.online-dot {
+  width: 6px;
+  height: 6px;
+
+  border-radius: 50%;
+
+  background: #63e69d;
+
+  box-shadow:
+    0 0 10px #63e69d;
+
+  animation:
+    briefOnlinePulse
+    1.8s ease-in-out infinite;
+}
+
+@keyframes briefOnlinePulse {
+  50% {
+    opacity: 0.35;
+  }
+}
+
+
+/* ======================================================
+   MAIN CONTENT
+====================================================== */
+
+.brief-content {
+  position: relative;
+
+  z-index: 5;
+
+  width: min(1180px, 91%);
+
+  margin: 0 auto;
+
+  padding:
+    30px 0 35px;
+}
+
+
+/* ======================================================
+   HEADING
+====================================================== */
+
+.brief-heading {
+  text-align: center;
+
+  margin-bottom: 22px;
+}
+
+.brief-eyebrow {
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  gap: 12px;
+
+  color: var(--cyan);
+
+  font-size: 7px;
+
+  letter-spacing: 0.28em;
+}
+
+.eyebrow-line {
+  width: 38px;
+  height: 1px;
+
+  background:
+    linear-gradient(
+      90deg,
+      transparent,
+      var(--cyan)
+    );
+}
+
+.eyebrow-line:last-child {
+  transform: scaleX(-1);
+}
+
+.brief-heading h1 {
+  margin:
+    7px 0 6px;
+
+  font-size:
+    clamp(30px, 4vw, 52px);
+
+  line-height: 1;
+
+  letter-spacing: 0.08em;
+
+  font-weight: 300;
+}
+
+.brief-heading h1 span {
+  color: var(--cyan);
+
+  font-weight: 700;
+
+  text-shadow:
+    0 0 25px
+    rgba(88, 216, 255, 0.18);
+}
+
+.brief-heading p {
+  margin: 0;
+
+  color: #71869b;
+
+  font-size: 11px;
+
+  letter-spacing: 0.04em;
+}
+
+
+/* ======================================================
+   MAIN PANEL
+====================================================== */
+
+.brief-main-panel {
+  position: relative;
+
+  display: grid;
+
+  grid-template-columns:
+    0.88fr 1.35fr;
+
+  gap: 35px;
+
+  padding: 27px;
+
+  border:
+    1px solid
+    rgba(103, 172, 215, 0.17);
+
+  border-radius: 5px;
+
+  background:
+    linear-gradient(
+      120deg,
+      rgba(6, 14, 25, 0.88),
+      rgba(8, 20, 33, 0.72)
+    );
+
+  backdrop-filter: blur(15px);
+
+  box-shadow:
+    0 30px 80px
+    rgba(0, 0, 0, 0.4),
+    inset 0 0 50px
+    rgba(67, 153, 211, 0.025);
+}
+
+.panel-corner {
+  position: absolute;
+
+  width: 16px;
+  height: 16px;
+
+  border-color:
+    rgba(88, 216, 255, 0.5);
+}
+
+.corner-top-left {
+  left: -1px;
+  top: -1px;
+
+  border-left: 2px solid;
+  border-top: 2px solid;
+}
+
+.corner-top-right {
+  right: -1px;
+  top: -1px;
+
+  border-right: 2px solid;
+  border-top: 2px solid;
+}
+
+.corner-bottom-left {
+  left: -1px;
+  bottom: -1px;
+
+  border-left: 2px solid;
+  border-bottom: 2px solid;
+}
+
+.corner-bottom-right {
+  right: -1px;
+  bottom: -1px;
+
+  border-right: 2px solid;
+  border-bottom: 2px solid;
+}
+
+
+/* ======================================================
+   LABEL
+====================================================== */
+
+.section-label {
+  display: flex;
+  align-items: center;
+
+  gap: 8px;
+
+  margin-bottom: 18px;
+
+  color: #72889e;
+
+  font-size: 7px;
+
+  letter-spacing: 0.2em;
+}
+
+.section-label span {
+  color: var(--cyan);
+}
+
+
+/* ======================================================
+   OBJECTIVE
+====================================================== */
+
+.brief-objective {
+  padding-right: 30px;
+
+  border-right:
+    1px solid
+    rgba(255, 255, 255, 0.07);
+}
+
+.brief-objective h2 {
+  margin: 0;
+
+  color: #dce7f1;
+
+  font-size:
+    clamp(20px, 2vw, 29px);
+
+  font-weight: 300;
+
+  line-height: 1.25;
+
+  letter-spacing: 0.05em;
+}
+
+.brief-objective h2 span {
+  color: var(--gold);
+
+  font-weight: 600;
+}
+
+.objective-description {
+  margin:
+    14px 0 18px;
+
+  max-width: 400px;
+
+  color: #8193a4;
+
+  font-size: 10px;
+
+  line-height: 1.65;
+}
+
+
+/* ======================================================
+   LOCATION
+====================================================== */
+
+.brief-location {
+  display: flex;
+  align-items: center;
+
+  gap: 13px;
+
+  margin-bottom: 18px;
+
+  padding: 12px;
+
+  border-left:
+    2px solid
+    rgba(88, 216, 255, 0.5);
+
+  background:
+    linear-gradient(
+      90deg,
+      rgba(44, 137, 190, 0.09),
+      transparent
+    );
+}
+
+.location-target {
+  position: relative;
+
+  width: 35px;
+  height: 35px;
+
+  flex-shrink: 0;
+}
+
+.target-ring {
+  position: absolute;
+
+  inset: 2px;
+
+  border:
+    1px solid
+    rgba(88, 216, 255, 0.42);
+
+  border-radius: 50%;
+
+  animation:
+    targetRotate 8s linear infinite;
+}
+
+.target-ring::before,
+.target-ring::after {
+  content: '';
+
+  position: absolute;
+
+  background: var(--cyan);
+}
+
+.target-ring::before {
+  width: 7px;
+  height: 1px;
+
+  left: -4px;
+  top: 50%;
+}
+
+.target-ring::after {
+  width: 1px;
+  height: 7px;
+
+  left: 50%;
+  top: -4px;
+}
+
+.target-center {
+  position: absolute;
+
+  width: 5px;
+  height: 5px;
+
+  left: 50%;
+  top: 50%;
+
+  transform:
+    translate(-50%, -50%);
+
+  border-radius: 50%;
+
+  background: var(--cyan);
+
+  box-shadow:
+    0 0 10px var(--cyan);
+}
+
+@keyframes targetRotate {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.brief-location div:last-child {
+  display: flex;
+  flex-direction: column;
+
+  gap: 2px;
+}
+
+.brief-location small {
+  color: #526a80;
+
+  font-size: 6px;
+
+  letter-spacing: 0.16em;
+}
+
+.brief-location strong {
+  color: #dfeaf3;
+
+  font-size: 10px;
+
+  letter-spacing: 0.08em;
+}
+
+.brief-location div:last-child span {
+  color: #657c90;
+
+  font-size: 7px;
+}
+
+
+/* ======================================================
+   DATA SYSTEM
+====================================================== */
+
+.nasa-data-box {
+  padding: 12px;
+
+  border:
+    1px solid
+    rgba(86, 190, 242, 0.16);
+
+  border-radius: 4px;
+
+  background:
+    rgba(18, 48, 70, 0.14);
+}
+
+.data-box-top {
+  display: flex;
+
+  justify-content: space-between;
+  align-items: center;
+}
+
+.data-box-top > div {
+  display: flex;
+  align-items: center;
+
+  gap: 8px;
+}
+
+.data-box-top > div > div {
+  display: flex;
+  flex-direction: column;
+
+  gap: 2px;
+}
+
+.data-pulse {
+  width: 7px;
+  height: 7px;
+
+  border-radius: 50%;
+
+  background: var(--cyan);
+
+  box-shadow:
+    0 0 10px var(--cyan);
+
+  animation:
+    dataPulse 1.5s
+    ease-in-out infinite;
+}
+
+@keyframes dataPulse {
+  50% {
+    opacity: 0.25;
+  }
+}
+
+.data-box-top strong {
+  color: #a9dff4;
+
+  font-size: 8px;
+
+  letter-spacing: 0.1em;
+}
+
+.data-box-top small {
+  color: #506b7e;
+
+  font-size: 6px;
+
+  letter-spacing: 0.1em;
+}
+
+.data-status {
+  padding: 4px 7px;
+
+  border:
+    1px solid
+    rgba(93, 225, 160, 0.24);
+
+  color: #72dba4;
+
+  font-size: 6px;
+
+  letter-spacing: 0.12em;
+}
+
+.nasa-data-box p {
+  margin:
+    9px 0;
+
+  color: #718799;
+
+  font-size: 8px;
+
+  line-height: 1.5;
+}
+
+.data-stream {
+  display: flex;
+  gap: 3px;
+
+  height: 14px;
+
+  align-items: flex-end;
+}
+
+.data-stream span {
+  width: 3px;
+
+  background:
+    rgba(88, 216, 255, 0.55);
+
+  animation:
+    dataStream 0.8s
+    ease-in-out infinite;
+}
+
+.data-stream span:nth-child(1) {
+  height: 4px;
+}
+
+.data-stream span:nth-child(2) {
+  height: 10px;
+  animation-delay: 0.1s;
+}
+
+.data-stream span:nth-child(3) {
+  height: 6px;
+  animation-delay: 0.2s;
+}
+
+.data-stream span:nth-child(4) {
+  height: 13px;
+  animation-delay: 0.3s;
+}
+
+.data-stream span:nth-child(5) {
+  height: 8px;
+  animation-delay: 0.4s;
+}
+
+.data-stream span:nth-child(6) {
+  height: 12px;
+  animation-delay: 0.5s;
+}
+
+.data-stream span:nth-child(7) {
+  height: 5px;
+  animation-delay: 0.6s;
+}
+
+.data-stream span:nth-child(8) {
+  height: 9px;
+  animation-delay: 0.7s;
+}
+
+@keyframes dataStream {
+  50% {
+    height: 3px;
+    opacity: 0.3;
+  }
+}
+
+
+/* ======================================================
+   PRIORITY GRID
+====================================================== */
+
+.priority-grid {
+  display: grid;
+
+  grid-template-columns:
+    repeat(2, 1fr);
+
+  gap: 9px;
+}
+
+.priority-card {
+  display: flex;
+
+  gap: 12px;
+
+  min-height: 85px;
+
+  padding: 12px;
+
+  border:
+    1px solid
+    rgba(104, 160, 197, 0.12);
+
+  border-radius: 4px;
+
+  background:
+    linear-gradient(
+      120deg,
+      rgba(20, 39, 57, 0.38),
+      rgba(7, 18, 30, 0.35)
+    );
+
+  transition:
+    transform 0.25s ease,
+    border-color 0.25s ease,
+    background 0.25s ease;
+
+  animation:
+    priorityEnter
+    0.6s ease both;
+
+  animation-delay: var(--delay);
+}
+
+.priority-card:hover {
+  transform:
+    translateY(-3px);
+
+  border-color:
+    rgba(88, 216, 255, 0.36);
+
+  background:
+    linear-gradient(
+      120deg,
+      rgba(26, 73, 99, 0.35),
+      rgba(7, 18, 30, 0.5)
+    );
+}
+
+@keyframes priorityEnter {
+  from {
+    opacity: 0;
+
+    transform:
+      translateY(8px);
+  }
+
+  to {
+    opacity: 1;
+
+    transform:
+      translateY(0);
+  }
+}
+
+.priority-icon {
+  width: 34px;
+  height: 34px;
+
+  flex-shrink: 0;
+
+  display: grid;
+  place-items: center;
+
+  border:
+    1px solid
+    rgba(88, 216, 255, 0.22);
+
+  border-radius: 50%;
+
+  color: var(--cyan);
+
+  font-size: 16px;
+
+  background:
+    rgba(37, 111, 150, 0.09);
+}
+
+.priority-info {
+  flex: 1;
+}
+
+.priority-title-row {
+  display: flex;
+
+  justify-content: space-between;
+  align-items: center;
+
+  gap: 5px;
+}
+
+.priority-title-row h3 {
+  margin: 0;
+
+  color: #d7e5ee;
+
+  font-size: 9px;
+
+  letter-spacing: 0.12em;
+}
+
+.priority-title-row span {
+  color: #526c82;
+
+  font-size: 6px;
+}
+
+.priority-info p {
+  margin:
+    7px 0 8px;
+
+  color: #667c90;
+
+  font-size: 7px;
+
+  line-height: 1.45;
+}
+
+.priority-line {
+  height: 1px;
+
+  overflow: hidden;
+
+  background:
+    rgba(255, 255, 255, 0.05);
+}
+
+.priority-line span {
+  display: block;
+
+  width: 42%;
+  height: 100%;
+
+  background:
+    linear-gradient(
+      90deg,
+      var(--cyan),
+      transparent
+    );
+}
+
+
+/* ======================================================
+   MISSION SEQUENCE
+====================================================== */
+
+.mission-sequence {
+  margin-top: 15px;
+
+  padding:
+    11px 18px;
+
+  display: flex;
+  align-items: center;
+
+  gap: 25px;
+
+  border:
+    1px solid
+    rgba(99, 156, 194, 0.11);
+
+  background:
+    rgba(6, 15, 25, 0.6);
+}
+
+.sequence-title {
+  flex-shrink: 0;
+
+  color: #526b80;
+
+  font-size: 6px;
+
+  letter-spacing: 0.18em;
+}
+
+.sequence-flow {
+  flex: 1;
+
+  display: flex;
+
+  align-items: center;
+  justify-content: space-between;
+}
+
+.sequence-step {
+  display: flex;
+  align-items: center;
+
+  gap: 6px;
+
+  color: #586d80;
+}
+
+.sequence-step span {
+  color: #3d566a;
+
+  font-size: 6px;
+}
+
+.sequence-step strong {
+  font-size: 7px;
+
+  letter-spacing: 0.1em;
+}
+
+.active-step strong {
+  color: #9edff6;
+}
+
+.active-step span {
+  color: var(--cyan);
+}
+
+.sequence-connector {
+  flex: 1;
+
+  display: flex;
+  align-items: center;
+
+  margin: 0 8px;
+}
+
+.sequence-connector span {
+  flex: 1;
+
+  height: 1px;
+
+  background:
+    rgba(83, 132, 166, 0.15);
+}
+
+.sequence-connector b {
+  color: #34546a;
+
+  font-size: 11px;
+}
+
+
+/* ======================================================
+   BOTTOM
+====================================================== */
+
+.brief-bottom {
+  display: grid;
+
+  grid-template-columns:
+    auto 1fr auto;
+
+  gap: 25px;
+
+  align-items: center;
+
+  margin-top: 15px;
+}
+
+.brief-back-button {
+  padding: 11px 17px;
+
+  border:
+    1px solid
+    rgba(125, 154, 177, 0.15);
+
+  border-radius: 3px;
+
+  background:
+    rgba(13, 23, 35, 0.55);
+
+  color: #73889a;
+
+  font-size: 7px;
+
+  letter-spacing: 0.14em;
+
+  cursor: pointer;
+
+  transition: 0.2s ease;
+}
+
+.brief-back-button:hover {
+  color: white;
+
+  border-color:
+    rgba(88, 216, 255, 0.35);
+}
+
+.brief-back-button span {
+  margin-right: 8px;
+}
+
+
+/* ======================================================
+   HOUSTON MESSAGE
+====================================================== */
+
+.commander-message {
+  display: flex;
+  align-items: center;
+
+  gap: 11px;
+
+  justify-self: center;
+}
+
+.commander-line {
+  width: 2px;
+  height: 31px;
+
+  background:
+    linear-gradient(
+      transparent,
+      var(--cyan),
+      transparent
+    );
+}
+
+.commander-message div {
+  display: flex;
+  flex-direction: column;
+
+  gap: 3px;
+}
+
+.commander-message small {
+  color: #52748c;
+
+  font-size: 6px;
+
+  letter-spacing: 0.14em;
+}
+
+.commander-message p {
+  margin: 0;
+
+  color: #71889b;
+
+  font-size: 8px;
+
+  font-style: italic;
+}
+
+
+/* ======================================================
+   BEGIN BUTTON
+====================================================== */
+
+.begin-analysis-button {
+  min-width: 185px;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  gap: 20px;
+
+  padding:
+    10px 13px 10px 17px;
+
+  border:
+    1px solid
+    rgba(88, 216, 255, 0.45);
+
+  border-radius: 3px;
+
+  background:
+    linear-gradient(
+      110deg,
+      rgba(20, 97, 133, 0.35),
+      rgba(12, 44, 66, 0.4)
+    );
+
+  color: white;
+
+  cursor: pointer;
+
+  box-shadow:
+    inset 0 0 20px
+    rgba(88, 216, 255, 0.025);
+
+  transition:
+    transform 0.2s ease,
+    background 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.begin-analysis-button div {
+  display: flex;
+  flex-direction: column;
+
+  align-items: flex-start;
+
+  gap: 2px;
+}
+
+.begin-analysis-button small {
+  color: #57869e;
+
+  font-size: 5px;
+
+  letter-spacing: 0.16em;
+}
+
+.begin-analysis-button strong {
+  color: #c5edfa;
+
+  font-size: 8px;
+
+  letter-spacing: 0.14em;
+}
+
+.analysis-arrow {
+  color: var(--cyan);
+
+  font-size: 18px;
+
+  transition:
+    transform 0.2s ease;
+}
+
+.begin-analysis-button:hover {
+  transform:
+    translateY(-2px);
+
+  background:
+    linear-gradient(
+      110deg,
+      rgba(27, 125, 168, 0.42),
+      rgba(12, 56, 83, 0.5)
+    );
+
+  box-shadow:
+    0 0 25px
+    rgba(88, 216, 255, 0.08);
+}
+
+.begin-analysis-button:hover
+.analysis-arrow {
+  transform: translateX(4px);
+}
+
+
+/* ======================================================
+   DECORATIONS
+====================================================== */
+
+.brief-left-coordinate,
+.brief-right-coordinate {
+  position: absolute;
+
+  top: 50%;
+
+  z-index: 4;
+
+  color:
+    rgba(86, 128, 155, 0.26);
+
+  font-size: 6px;
+
+  letter-spacing: 0.22em;
+
+  writing-mode: vertical-rl;
+}
+
+.brief-left-coordinate {
+  left: 14px;
+}
+
+.brief-right-coordinate {
+  right: 14px;
+}
+
+.brief-scanline {
+  position: absolute;
+
+  left: 0;
+  right: 0;
+
+  height: 1px;
+
+  z-index: 50;
+
+  pointer-events: none;
+
+  opacity: 0.07;
+
+  background: #7cdbff;
+
+  animation:
+    briefScan 9s linear infinite;
+}
+
+@keyframes briefScan {
+  from {
+    top: 0;
+  }
+
+  to {
+    top: 100%;
+  }
+}
+
+.brief-vignette {
+  position: absolute;
+  inset: 0;
+
+  z-index: 40;
+
+  pointer-events: none;
+
+  background:
+    radial-gradient(
+      ellipse at center,
+      transparent 55%,
+      rgba(0, 0, 0, 0.55)
+      125%
+    );
+}
+
+
+/* ======================================================
+   RESPONSIVE
+====================================================== */
+
+@media (max-width: 900px) {
+  .brief-main-panel {
+    grid-template-columns: 1fr;
+  }
+
+  .brief-objective {
+    padding-right: 0;
+
+    padding-bottom: 25px;
+
+    border-right: none;
+
+    border-bottom:
+      1px solid
+      rgba(255, 255, 255, 0.07);
+  }
+
+  .brief-top-center {
+    display: none;
+  }
+
+  .brief-topbar {
+    grid-template-columns:
+      1fr 1fr;
+  }
+
+  .brief-bottom {
+    grid-template-columns:
+      1fr 1fr;
+  }
+
+  .commander-message {
+    grid-column:
+      1 / -1;
+
+    grid-row: 1;
+
+    justify-self: start;
+  }
+}
+
+
+@media (max-width: 650px) {
+  .mission-brief {
+    overflow-y: auto;
+  }
+
+  .brief-content {
+    width: 92%;
+
+    padding-top: 20px;
+  }
+
+  .brief-earth {
+    opacity: 0.28;
+  }
+
+  .priority-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .mission-sequence {
+    display: none;
+  }
+
+  .brief-bottom {
+    grid-template-columns: 1fr;
+
+    gap: 10px;
+  }
+
+  .commander-message {
+    grid-column: auto;
+    grid-row: auto;
+  }
+
+  .begin-analysis-button {
+    width: 100%;
+  }
+
+  .brief-back-button {
+    width: max-content;
+  }
+
+  .brief-left-coordinate,
+  .brief-right-coordinate {
+    display: none;
+  }
+}

@@ -26,7 +26,13 @@ const dialogues = [
   },
 ]
 
-export default function WelcomeScreen() {
+type WelcomeScreenProps = {
+  onMissionBrief: () => void
+}
+
+export default function WelcomeScreen({
+  onMissionBrief,
+}: WelcomeScreenProps) {
   const starFieldRef = useRef<HTMLDivElement>(null)
 
   const [voiceOn, setVoiceOn] = useState(true)
@@ -960,39 +966,25 @@ export default function WelcomeScreen() {
 
             ) : (
 
-              <div className="cinematic-options">
+             <div className="cinematic-options">
 
-                <button>
+  <button
+    className="enter-brief-button"
+    onClick={onMissionBrief}
+    disabled={!dialogueFinished}
+  >
+    <span className="option-number">
+      01
+    </span>
 
-                  <span className="option-number">
-                    01
-                  </span>
+    ENTER MISSION BRIEF
 
-                  SCAN CRATER
+    <span>
+      →
+    </span>
+  </button>
 
-                </button>
-
-                <button>
-
-                  <span className="option-number">
-                    02
-                  </span>
-
-                  CHECK SOLAR ZONE
-
-                </button>
-
-                <button>
-
-                  <span className="option-number">
-                    03
-                  </span>
-
-                  ANALYZE TERRAIN
-
-                </button>
-
-              </div>
+</div>
 
             )}
 
