@@ -60,7 +60,11 @@ export default function MissionBrief({
   }, [])
 
   return (
-    <main className={`mission-brief ${loaded ? 'mission-loaded' : ''}`}>
+    <main
+      className={`mission-brief ${
+        loaded ? 'mission-loaded' : ''
+      }`}
+    >
       {/* BACKGROUND */}
       <div className="brief-space">
         <div className="brief-stars brief-stars-one" />
@@ -76,8 +80,10 @@ export default function MissionBrief({
       <div className="brief-earth">
         <div className="brief-earth-land land-a" />
         <div className="brief-earth-land land-b" />
+
         <div className="brief-earth-cloud cloud-a" />
         <div className="brief-earth-cloud cloud-b" />
+
         <div className="brief-earth-shadow" />
       </div>
 
@@ -86,6 +92,7 @@ export default function MissionBrief({
         <div className="brief-moon-crater crater-one" />
         <div className="brief-moon-crater crater-two" />
         <div className="brief-moon-crater crater-three" />
+
         <div className="brief-moon-shadow" />
       </div>
 
@@ -114,11 +121,14 @@ export default function MissionBrief({
 
       {/* MAIN CONTENT */}
       <section className="brief-content">
+
         {/* TITLE */}
         <div className="brief-heading">
           <div className="brief-eyebrow">
             <span className="eyebrow-line" />
+
             COMMANDER BRIEFING
+
             <span className="eyebrow-line" />
           </div>
 
@@ -135,6 +145,7 @@ export default function MissionBrief({
 
         {/* MAIN GLASS PANEL */}
         <div className="brief-main-panel">
+
           <div className="panel-corner corner-top-left" />
           <div className="panel-corner corner-top-right" />
           <div className="panel-corner corner-bottom-left" />
@@ -142,6 +153,7 @@ export default function MissionBrief({
 
           {/* LEFT SIDE */}
           <div className="brief-objective">
+
             <div className="section-label">
               <span>01</span>
               PRIMARY OBJECTIVE
@@ -174,7 +186,9 @@ export default function MissionBrief({
 
             {/* DATA CONNECTION */}
             <div className="nasa-data-box">
+
               <div className="data-box-top">
+
                 <div>
                   <span className="data-pulse" />
 
@@ -187,6 +201,7 @@ export default function MissionBrief({
                 <span className="data-status">
                   CONNECTED
                 </span>
+
               </div>
 
               <p>
@@ -204,17 +219,20 @@ export default function MissionBrief({
                 <span />
                 <span />
               </div>
+
             </div>
           </div>
 
           {/* RIGHT SIDE */}
           <div className="brief-priorities">
+
             <div className="section-label">
               <span>02</span>
               MISSION PRIORITIES
             </div>
 
             <div className="priority-grid">
+
               {missionFactors.map((factor, index) => (
                 <article
                   className="priority-card"
@@ -225,11 +243,13 @@ export default function MissionBrief({
                     } as React.CSSProperties
                   }
                 >
+
                   <div className="priority-icon">
                     {factor.icon}
                   </div>
 
                   <div className="priority-info">
+
                     <div className="priority-title-row">
                       <h3>{factor.title}</h3>
                       <span>{factor.subtitle}</span>
@@ -240,20 +260,25 @@ export default function MissionBrief({
                     <div className="priority-line">
                       <span />
                     </div>
+
                   </div>
+
                 </article>
               ))}
+
             </div>
           </div>
         </div>
 
         {/* MISSION FLOW */}
         <div className="mission-sequence">
+
           <div className="sequence-title">
             MISSION SEQUENCE
           </div>
 
           <div className="sequence-flow">
+
             <div className="sequence-step active-step">
               <span>01</span>
               <strong>SITE ANALYSIS</strong>
@@ -298,11 +323,14 @@ export default function MissionBrief({
               <span>05</span>
               <strong>RESULTS</strong>
             </div>
+
           </div>
         </div>
 
         {/* BOTTOM */}
         <div className="brief-bottom">
+
+          {/* BACK */}
           <button
             className="brief-back-button"
             type="button"
@@ -312,7 +340,9 @@ export default function MissionBrief({
             BACK
           </button>
 
+          {/* COMMANDER MESSAGE */}
           <div className="commander-message">
+
             <span className="commander-line" />
 
             <div>
@@ -323,8 +353,10 @@ export default function MissionBrief({
                 Begin your analysis when ready.”
               </p>
             </div>
+
           </div>
 
+          {/* BEGIN ANALYSIS */}
           <button
             className="begin-analysis-button"
             type="button"
@@ -335,8 +367,11 @@ export default function MissionBrief({
               <strong>BEGIN ANALYSIS</strong>
             </div>
 
-            <span className="analysis-arrow">→</span>
+            <span className="analysis-arrow">
+              →
+            </span>
           </button>
+
         </div>
       </section>
 
@@ -351,6 +386,7 @@ export default function MissionBrief({
 
       <div className="brief-scanline" />
       <div className="brief-vignette" />
+
     </main>
   )
 }

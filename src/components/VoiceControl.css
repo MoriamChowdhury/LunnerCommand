@@ -1,0 +1,127 @@
+/* =========================================================
+   MOONIX — VOICE CONTROL
+   Every class is prefixed with "vc-". Same look as the mic
+   on the Mission Window screen.
+   ========================================================= */
+
+.vc-voice {
+  justify-self: end;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+  max-width: 300px;
+}
+
+.vc-mic {
+  position: relative;
+  width: 40px;
+  height: 40px;
+  flex-shrink: 0;
+  display: grid;
+  place-items: center;
+  border: 1px solid rgba(114, 232, 255, 0.5);
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(114, 232, 255, 0.2), rgba(3, 10, 18, 0.96) 66%);
+  color: #72e8ff;
+  cursor: pointer;
+  box-shadow: 0 0 20px rgba(114, 232, 255, 0.12);
+  transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+}
+
+.vc-mic:hover {
+  transform: scale(1.07);
+  border-color: #72e8ff;
+  box-shadow: 0 0 30px rgba(114, 232, 255, 0.32);
+}
+
+.vc-mic:focus-visible {
+  outline: 1px solid #72e8ff;
+  outline-offset: 3px;
+}
+
+.vc-mic svg {
+  position: relative;
+  z-index: 2;
+  width: 18px;
+  height: 18px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  filter: drop-shadow(0 0 5px currentColor);
+}
+
+.vc-mic svg rect {
+  fill: color-mix(in srgb, currentColor 25%, transparent);
+}
+
+.vc-mic > i {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 100%;
+  height: 100%;
+  border: 1px solid rgba(114, 232, 255, 0.35);
+  border-radius: 50%;
+  opacity: 0;
+  transform: translate(-50%, -50%);
+}
+
+.vc-mic.is-listening > i:nth-of-type(1) { animation: vcMicWave 2s ease-out infinite; }
+.vc-mic.is-listening > i:nth-of-type(2) { animation: vcMicWave 2s 1s ease-out infinite; }
+
+@keyframes vcMicWave {
+  from { transform: translate(-50%, -50%) scale(0.9); opacity: 0.7; }
+  to { transform: translate(-50%, -50%) scale(1.9); opacity: 0; }
+}
+
+.vc-mic.is-off {
+  border-color: rgba(120, 144, 159, 0.25);
+  background: rgba(10, 18, 24, 0.8);
+  color: #5d7280;
+  box-shadow: none;
+}
+
+.vc-mic-slash {
+  stroke: #ef7e7e;
+}
+
+.vc-copy {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  min-width: 0;
+}
+
+.vc-copy small {
+  color: #7d95a4;
+  font-family: 'JetBrains Mono', ui-monospace, 'SFMono-Regular', Consolas, monospace;
+  font-size: 8px;
+  letter-spacing: 0.14em;
+  white-space: nowrap;
+}
+
+.vc-copy small.is-listening {
+  color: #72e8ff;
+}
+
+.vc-copy span {
+  overflow: hidden;
+  color: #c6d6df;
+  font-size: 12px;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+@media (max-width: 560px) {
+  .vc-copy {
+    display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .vc-mic > i {
+    animation: none !important;
+  }
+}

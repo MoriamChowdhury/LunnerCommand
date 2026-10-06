@@ -1,0 +1,809 @@
+/* =========================================================
+   MOONIX — WHAT YOU LEARNED
+   Every class is prefixed with "wl-" so nothing collides with
+   the other screens. Same palette as Equipment / Mission Window.
+   ========================================================= */
+
+.wl-page {
+  --wl-bg: #02060b;
+  --wl-cyan: #72e8ff;
+  --wl-gold: #e5bd72;
+  --wl-green: #73e2a5;
+  --wl-red: #ef7e7e;
+  --wl-orange: #e5a36c;
+  --wl-violet: #b99cff;
+  --wl-blue: #8db9ff;
+  --wl-white: #f1f7fa;
+  --wl-text: #c6d6df;
+  --wl-muted: #7d95a4;
+  --wl-dim: #4f6878;
+  --wl-border: rgba(114, 232, 255, 0.14);
+  --wl-mono: 'JetBrains Mono', ui-monospace, 'SFMono-Regular', Consolas, monospace;
+  --wl-body: Inter, 'Segoe UI', Arial, sans-serif;
+
+  position: relative;
+  min-height: 100vh;
+  width: 100%;
+  overflow-x: hidden;
+  color: var(--wl-white);
+  background: var(--wl-bg);
+  font-family: var(--wl-body);
+  isolation: isolate;
+}
+
+.wl-page *,
+.wl-page *::before,
+.wl-page *::after {
+  box-sizing: border-box;
+}
+
+:where(.wl-page) button,
+:where(.wl-page) textarea {
+  font: inherit;
+  color: inherit;
+}
+
+.wl-page button:focus-visible,
+.wl-page textarea:focus-visible {
+  outline: 1px solid var(--wl-cyan);
+  outline-offset: 3px;
+}
+
+@keyframes wlFadeUp {
+  from { opacity: 0; transform: translateY(18px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes wlPulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.35; transform: scale(0.6); }
+}
+
+@keyframes wlShimmer {
+  to { background-position: -250% 0; }
+}
+
+@keyframes wlDrift {
+  to { transform: translate3d(90px, 60px, 0); }
+}
+
+@keyframes wlNebula {
+  0%, 100% { transform: translate3d(0, 0, 0) scale(1); }
+  50% { transform: translate3d(40px, -30px, 0) scale(1.12); }
+}
+
+
+/* =========================================================
+   BACKGROUND
+   ========================================================= */
+
+.wl-space {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  overflow: hidden;
+  pointer-events: none;
+  background:
+    radial-gradient(ellipse at 50% 125%, rgba(52, 99, 125, 0.25), transparent 52%),
+    radial-gradient(circle at 12% 10%, rgba(114, 232, 255, 0.06), transparent 30%),
+    #02060b;
+}
+
+.wl-stars {
+  position: absolute;
+  inset: -30%;
+  background-repeat: repeat;
+}
+
+.wl-stars-a {
+  opacity: 0.7;
+  background-image: radial-gradient(circle, rgba(255, 255, 255, 0.85) 0 1px, transparent 1.5px);
+  background-size: 73px 73px;
+  animation: wlDrift 120s linear infinite;
+}
+
+.wl-stars-b {
+  opacity: 0.45;
+  background-image: radial-gradient(circle, rgba(114, 232, 255, 0.9) 0 1px, transparent 1.6px);
+  background-size: 127px 127px;
+  animation: wlDrift 160s linear infinite reverse;
+}
+
+.wl-nebula {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(90px);
+  opacity: 0.18;
+}
+
+.wl-nebula-a {
+  top: -20%;
+  left: -12%;
+  width: 55vw;
+  height: 55vw;
+  background: radial-gradient(circle, #2b8ba9, transparent 65%);
+  animation: wlNebula 20s ease-in-out infinite;
+}
+
+.wl-nebula-b {
+  bottom: -25%;
+  right: -10%;
+  width: 50vw;
+  height: 50vw;
+  background: radial-gradient(circle, #6a4fc4, transparent 65%);
+  animation: wlNebula 26s ease-in-out infinite reverse;
+}
+
+/* curved lunar horizon with craters */
+.wl-horizon {
+  position: absolute;
+  left: -20%;
+  right: -20%;
+  bottom: -78vh;
+  height: 100vh;
+  border-radius: 50%;
+  background:
+    radial-gradient(circle at 30% 8%, rgba(0, 0, 0, 0.35) 0 22px, transparent 24px),
+    radial-gradient(circle at 62% 5%, rgba(0, 0, 0, 0.3) 0 14px, transparent 16px),
+    radial-gradient(circle at 78% 10%, rgba(0, 0, 0, 0.28) 0 30px, transparent 32px),
+    radial-gradient(ellipse at 50% 0%, #56636b, #262e34 30%, #0c1115 60%);
+  box-shadow:
+    0 -2px 0 rgba(241, 247, 250, 0.2),
+    0 -30px 90px rgba(114, 232, 255, 0.12);
+  opacity: 0.55;
+}
+
+
+/* =========================================================
+   NAV + STEPPER
+   ========================================================= */
+
+.wl-nav {
+  position: sticky;
+  top: 0;
+  z-index: 60;
+  min-height: 74px;
+  display: grid;
+  grid-template-columns: minmax(210px, 1fr) auto minmax(210px, 1fr);
+  align-items: center;
+  padding: 0 clamp(18px, 4vw, 64px);
+  border-bottom: 1px solid rgba(114, 232, 255, 0.08);
+  background: rgba(2, 7, 12, 0.74);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+}
+
+.wl-brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  text-align: left;
+  cursor: pointer;
+}
+
+div.wl-brand,
+.wl-brand:disabled {
+  cursor: default;
+}
+
+.wl-brand-mark {
+  width: 36px;
+  height: 36px;
+  display: grid;
+  place-items: center;
+  border: 1px solid rgba(114, 232, 255, 0.55);
+  color: var(--wl-cyan);
+  font-family: var(--wl-mono);
+  font-weight: 600;
+  background: linear-gradient(135deg, rgba(114, 232, 255, 0.14), rgba(114, 232, 255, 0.02));
+  box-shadow: 0 0 22px rgba(114, 232, 255, 0.1);
+}
+
+.wl-brand-copy {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.wl-brand-copy strong {
+  font-family: var(--wl-mono);
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+}
+
+.wl-brand-copy small {
+  color: var(--wl-dim);
+  font-family: var(--wl-mono);
+  font-size: 8px;
+  letter-spacing: 0.16em;
+}
+
+.wl-path {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  color: var(--wl-dim);
+  font-family: var(--wl-mono);
+  font-size: 10px;
+  letter-spacing: 0.14em;
+}
+
+.wl-path i {
+  color: rgba(114, 232, 255, 0.3);
+  font-style: normal;
+}
+
+.wl-path strong {
+  color: var(--wl-cyan);
+  font-weight: 500;
+}
+
+.wl-status {
+  justify-self: end;
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  padding: 8px 12px;
+  border: 1px solid rgba(114, 232, 255, 0.1);
+  background: rgba(114, 232, 255, 0.03);
+  color: var(--wl-muted);
+  font-family: var(--wl-mono);
+  font-size: 9px;
+  letter-spacing: 0.12em;
+  white-space: nowrap;
+}
+
+.wl-status-dot {
+  width: 6px;
+  height: 6px;
+  flex-shrink: 0;
+  border-radius: 50%;
+  background: var(--wl-green);
+  box-shadow: 0 0 12px rgba(115, 226, 165, 0.75);
+  animation: wlPulse 1.6s ease-in-out infinite;
+}
+
+.wl-stepper {
+  width: min(1320px, calc(100% - 48px));
+  margin: 22px auto 0;
+  display: flex;
+  align-items: center;
+}
+
+.wl-step {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  color: var(--wl-dim);
+}
+
+.wl-step:last-child {
+  flex: 0 0 auto;
+}
+
+.wl-step-num {
+  width: 28px;
+  height: 28px;
+  flex-shrink: 0;
+  display: grid;
+  place-items: center;
+  clip-path: polygon(50% 0, 100% 50%, 50% 100%, 0 50%);
+  background: rgba(114, 232, 255, 0.08);
+  font-family: var(--wl-mono);
+  font-size: 9px;
+}
+
+.wl-step strong {
+  font-family: var(--wl-mono);
+  font-size: 9px;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  white-space: nowrap;
+}
+
+.wl-step-line {
+  flex: 1;
+  height: 1px;
+  margin: 0 8px;
+  overflow: hidden;
+  background: rgba(114, 232, 255, 0.1);
+}
+
+.wl-step-line i {
+  display: block;
+  width: 0;
+  height: 100%;
+}
+
+.wl-step.is-done {
+  color: var(--wl-green);
+}
+
+.wl-step.is-done .wl-step-num {
+  background: rgba(115, 226, 165, 0.2);
+  color: var(--wl-green);
+}
+
+.wl-step.is-done .wl-step-line i {
+  width: 100%;
+  background: linear-gradient(90deg, var(--wl-green), var(--wl-cyan));
+}
+
+.wl-step.is-active {
+  color: var(--wl-cyan);
+}
+
+.wl-step.is-active .wl-step-num {
+  background: var(--wl-cyan);
+  color: #02121a;
+  font-weight: 700;
+  box-shadow: 0 0 20px var(--wl-cyan);
+}
+
+
+/* =========================================================
+   SHELL + HEADING
+   ========================================================= */
+
+.wl-shell {
+  width: min(1320px, calc(100% - 48px));
+  margin: 0 auto;
+  padding: 40px 0 56px;
+}
+
+.wl-heading {
+  max-width: 780px;
+  margin-bottom: 28px;
+  animation: wlFadeUp 0.7s ease both;
+}
+
+.wl-eyebrow {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 16px;
+  color: var(--wl-gold);
+  font-family: var(--wl-mono);
+  font-size: 10px;
+  letter-spacing: 0.22em;
+}
+
+.wl-eyebrow-line {
+  width: 34px;
+  height: 1px;
+  background: var(--wl-gold);
+  box-shadow: 0 0 12px rgba(229, 189, 114, 0.5);
+}
+
+.wl-title {
+  margin: 0;
+  font-family: var(--wl-mono);
+  font-size: clamp(34px, 5vw, 64px);
+  font-weight: 400;
+  line-height: 1;
+  letter-spacing: -0.05em;
+}
+
+.wl-title span {
+  color: transparent;
+  background: linear-gradient(90deg, var(--wl-cyan), #d6f6ff 30%, var(--wl-violet) 55%, var(--wl-cyan) 80%);
+  background-size: 250% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  animation: wlShimmer 6s linear infinite;
+}
+
+.wl-heading > p {
+  max-width: 660px;
+  margin: 18px 0 0;
+  color: var(--wl-text);
+  font-size: 16px;
+  line-height: 1.7;
+}
+
+.wl-heading > p b {
+  color: var(--wl-cyan);
+  font-weight: 600;
+}
+
+
+/* =========================================================
+   PANELS
+   ========================================================= */
+
+.wl-panel {
+  position: relative;
+  padding: 20px;
+  overflow: hidden;
+  border: 1px solid var(--wl-border);
+  background: linear-gradient(145deg, rgba(8, 20, 31, 0.9), rgba(3, 10, 17, 0.86));
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.03);
+  backdrop-filter: blur(15px);
+  -webkit-backdrop-filter: blur(15px);
+  animation: wlFadeUp 0.7s ease both;
+}
+
+.wl-panel::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 90px;
+  height: 1px;
+  background: linear-gradient(90deg, var(--wl-cyan), transparent);
+}
+
+.wl-panel::after {
+  content: '';
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  width: 80px;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(229, 189, 114, 0.6));
+}
+
+.wl-panel-head {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.wl-panel-head > span:first-child {
+  color: var(--wl-gold);
+  font-family: var(--wl-mono);
+  font-size: 11px;
+}
+
+.wl-panel-head > div {
+  min-width: 0;
+  flex: 1;
+}
+
+.wl-panel-head small {
+  display: block;
+  margin-bottom: 4px;
+  color: var(--wl-dim);
+  font-family: var(--wl-mono);
+  font-size: 9px;
+  letter-spacing: 0.14em;
+}
+
+.wl-panel-head h2 {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 500;
+  letter-spacing: -0.01em;
+}
+
+.wl-bar {
+  position: relative;
+  height: 8px;
+  overflow: hidden;
+  border-radius: 8px;
+  background: rgba(114, 232, 255, 0.08);
+}
+
+.wl-bar > i {
+  display: block;
+  height: 100%;
+  border-radius: 8px;
+  background: var(--wl-cyan);
+  transition: width 0.6s ease;
+}
+
+
+/* =========================================================
+   FOOTER BUTTONS
+   ========================================================= */
+
+.wl-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 16px;
+  margin-top: 22px;
+}
+
+.wl-back {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  padding: 14px 18px;
+  border: 1px solid rgba(114, 232, 255, 0.12);
+  background: rgba(114, 232, 255, 0.03);
+  color: #7890a0;
+  font-family: var(--wl-mono);
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.wl-back span {
+  color: var(--wl-cyan);
+  font-size: 15px;
+  transition: transform 0.3s ease;
+}
+
+.wl-back:hover:not(:disabled) {
+  color: var(--wl-white);
+  border-color: rgba(114, 232, 255, 0.35);
+}
+
+.wl-back:hover:not(:disabled) span {
+  transform: translateX(-4px);
+}
+
+.wl-back:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+}
+
+.wl-go {
+  position: relative;
+  min-width: 280px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+  padding: 16px 20px;
+  border: 1px solid rgba(229, 189, 114, 0.55);
+  background: linear-gradient(135deg, rgba(229, 189, 114, 0.2), rgba(120, 80, 30, 0.1));
+  color: var(--wl-gold);
+  font-family: var(--wl-mono);
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  cursor: pointer;
+  box-shadow: 0 0 24px rgba(229, 189, 114, 0.14);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.wl-go:hover:not(:disabled) {
+  transform: translateY(-3px);
+  box-shadow: 0 0 34px rgba(229, 189, 114, 0.3);
+}
+
+.wl-go:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.wl-go b {
+  font-size: 16px;
+}
+
+.wl-go.is-good {
+  border-color: rgba(115, 226, 165, 0.7);
+  background: linear-gradient(135deg, rgba(115, 226, 165, 0.22), rgba(30, 100, 70, 0.1));
+  color: var(--wl-green);
+  box-shadow: 0 0 24px rgba(115, 226, 165, 0.16);
+}
+
+.wl-go.is-bad {
+  border-color: rgba(239, 126, 126, 0.65);
+  background: linear-gradient(135deg, rgba(239, 126, 126, 0.2), rgba(110, 30, 30, 0.1));
+  color: var(--wl-red);
+  box-shadow: 0 0 24px rgba(239, 126, 126, 0.14);
+}
+
+
+/* =========================================================
+   RESPONSIVE (shared)
+   ========================================================= */
+
+@media (max-width: 900px) {
+  .wl-nav {
+    grid-template-columns: 1fr auto;
+  }
+
+  .wl-path {
+    display: none;
+  }
+
+  .wl-step strong {
+    display: none;
+  }
+}
+
+@media (max-width: 560px) {
+  .wl-shell,
+  .wl-stepper {
+    width: calc(100% - 32px);
+  }
+
+  .wl-shell {
+    padding-top: 28px;
+  }
+
+  .wl-nav {
+    min-height: 64px;
+    padding: 0 16px;
+  }
+
+  .wl-brand-copy small {
+    display: none;
+  }
+
+  .wl-status {
+    font-size: 8px;
+  }
+
+  .wl-footer {
+    flex-direction: column-reverse;
+    align-items: stretch;
+  }
+
+  .wl-go {
+    min-width: 0;
+  }
+
+  .wl-back {
+    justify-content: center;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .wl-page *,
+  .wl-page *::before,
+  .wl-page *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    animation-delay: 0ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+
+/* =========================================================
+   DEBRIEF TRAIL (Congratulations → Results → Learned → Journal)
+   ========================================================= */
+
+.wl-trail {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 0 0 22px;
+  padding: 0;
+  list-style: none;
+}
+
+.wl-trail li {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 7px 12px;
+  border: 1px solid rgba(114, 232, 255, 0.1);
+  color: var(--wl-dim);
+  font-family: var(--wl-mono);
+  font-size: 10px;
+  letter-spacing: 0.1em;
+}
+
+.wl-trail li b {
+  font-weight: 500;
+}
+
+.wl-trail li.is-done {
+  color: var(--wl-green);
+  border-color: rgba(115, 226, 165, 0.25);
+}
+
+.wl-trail li.is-active {
+  color: #02121a;
+  border-color: var(--wl-cyan);
+  background: var(--wl-cyan);
+  box-shadow: 0 0 18px rgba(114, 232, 255, 0.35);
+}
+
+
+/* =========================================================
+   WHAT YOU LEARNED — SCREEN SPECIFIC
+   ========================================================= */
+
+.wl-lessons {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.wl-lesson {
+  --tone: var(--wl-cyan);
+
+  position: relative;
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+  padding: 22px;
+  border: 1px solid color-mix(in srgb, var(--tone) 30%, transparent);
+  border-left: 3px solid var(--tone);
+  background: linear-gradient(145deg, color-mix(in srgb, var(--tone) 8%, rgba(8, 20, 31, 0.92)), rgba(3, 10, 17, 0.88));
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.35);
+  backdrop-filter: blur(15px);
+  -webkit-backdrop-filter: blur(15px);
+  animation: wlFadeUp 0.6s ease both;
+  transition: transform 0.3s ease;
+}
+
+.wl-lesson:hover {
+  transform: translateY(-3px);
+}
+
+.wl-lesson.is-good { --tone: var(--wl-green); }
+.wl-lesson.is-tradeoff { --tone: var(--wl-gold); }
+.wl-lesson.is-improve { --tone: var(--wl-cyan); }
+.wl-lesson.is-fact { --tone: var(--wl-violet); }
+
+.wl-lesson-icon {
+  width: 46px;
+  height: 46px;
+  flex-shrink: 0;
+  display: grid;
+  place-items: center;
+  border: 1px solid color-mix(in srgb, var(--tone) 55%, transparent);
+  background: color-mix(in srgb, var(--tone) 12%, transparent);
+  color: var(--tone);
+  font-size: 20px;
+  font-weight: 700;
+}
+
+.wl-lesson small {
+  color: var(--tone);
+  font-family: var(--wl-mono);
+  font-size: 10px;
+  letter-spacing: 0.16em;
+}
+
+.wl-lesson h2 {
+  margin: 6px 0 8px;
+  font-size: 19px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+
+.wl-lesson p {
+  margin: 0;
+  color: var(--wl-text);
+  font-size: 15px;
+  line-height: 1.65;
+}
+
+@media (max-width: 760px) {
+  .wl-lessons {
+    grid-template-columns: 1fr;
+  }
+
+  .wl-lesson {
+    padding: 18px;
+  }
+}
+
+
+/* =========================================================
+   NAV RIGHT — status + voice control
+   ========================================================= */
+
+.wl-nav-right {
+  justify-self: end;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  min-width: 0;
+}
+
+@media (max-width: 1100px) {
+  .wl-nav-right .wl-status {
+    display: none;
+  }
+}
