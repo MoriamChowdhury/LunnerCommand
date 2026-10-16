@@ -3,6 +3,7 @@ import { useEffect, useMemo, useState } from 'react'
 import type { CSSProperties } from 'react'
 
 import { MASS_LIMIT } from '../data/equipment'
+import { windowFor } from '../data/launchWindows'
 
 import {
   evaluateMission,
@@ -140,7 +141,7 @@ export default function MissionSimulation({
   onComplete,
 }: MissionSimulationProps) {
   const site = findSite(selectedSite)
-  const win = findWindow(selectedWindow)
+  const win = windowFor(site, findWindow(selectedWindow))
   const items = findItems(selectedEquipment)
 
   const result = useMemo(

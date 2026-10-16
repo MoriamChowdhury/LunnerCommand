@@ -1,4 +1,5 @@
-import { lunarSites } from '../data/lunarSites'
+import { SUN_GOOD, lunarSites } from '../data/lunarSites'
+import { windowFor } from '../data/launchWindows'
 
 import {
   findItems,
@@ -79,7 +80,7 @@ function buildLessons(
   initialShortages: Shortage[]
 ): Lesson[] {
   const site = findSite(result.siteId)
-  const win = findWindow(result.windowId)
+  const win = windowFor(site, findWindow(result.windowId))
   const items = findItems(result.equipmentIds)
   const has = (id: string) => result.equipmentIds.includes(id)
   const cold = parseTemperature(site.temperature) <= -100
@@ -89,7 +90,7 @@ function buildLessons(
 
   /* ---------- 1. what worked ---------- */
 
-  if (has('battery') && (site.sunlight < 80 || win.sun < 60)) {
+  if (has('battery') && (site.sunlight < SUN_GOOD || win.sun < SUN_GOOD)) {
     lessons.push({
       kind: 'good',
       title: 'Battery for the dark',

@@ -12,11 +12,25 @@ import type {
 } from 'react'
 
 import {
+  DATA_STATUS,
+  STATUS_LABEL,
   lunarSites,
   type LunarSite,
+  type SiteField,
 } from '../data/lunarSites'
 
 import './LandingSite.css'
+
+/* small honesty label: NASA-based, game estimate or needs checking */
+function StatusTag({ field }: { field: SiteField }) {
+  const status = DATA_STATUS[field]
+
+  return (
+    <b className={`ls-status is-${status}`}>
+      {STATUS_LABEL[status]}
+    </b>
+  )
+}
 
 type LandingSiteProps = {
   selectedSite: string
@@ -223,9 +237,10 @@ function LandingSite({
     String(selectedIndex + 1).padStart(2, '0')
 
   const scoreLabel = useMemo(() => {
-    if (selected.score >= 90) return 'OPTIMAL'
-    if (selected.score >= 80) return 'FAVORABLE'
-    if (selected.score >= 70) return 'VIABLE'
+    /* site index = average of real sun % and Earth link %, so levels are lower than the old invented scores */
+    if (selected.score >= 70) return 'OPTIMAL'
+    if (selected.score >= 55) return 'FAVORABLE'
+    if (selected.score >= 45) return 'VIABLE'
 
     return 'CAUTION'
   }, [selected.score])
@@ -1583,6 +1598,9 @@ function LandingSite({
                       <span>
                         ☀ {site.sunlight}% · ◇ {site.ice} · {site.risk}
                       </span>
+                      <b className="ls-status is-estimate">
+                        SUN &amp; EARTH: NASA DATA · OTHERS: ESTIMATES
+                      </b>
                     </span>
                   </button>
                 )
@@ -1976,6 +1994,7 @@ function LandingSite({
                       <small>
                         POWER POTENTIAL
                       </small>
+                      <StatusTag field="sunlight" />
                     </div>
                   </article>
 
@@ -2004,6 +2023,7 @@ function LandingSite({
                       <small>
                         LINE OF SIGHT
                       </small>
+                      <StatusTag field="communication" />
                     </div>
                   </article>
 
@@ -2040,9 +2060,21 @@ function LandingSite({
                       <small>
                         RESOURCE POTENTIAL
                       </small>
+                      <StatusTag field="ice" />
                     </div>
                   </article>
                 </div>
+
+                <p className="ls-data-note">
+                  <b>NASA DATA</b> · LRO/LOLA long-term averages, not monthly
+                  values and not a landing-site decision. The numbers above
+                  are the best spot on {selected.name} (within{' '}
+                  {selected.searchKm} km of its centre, rim included; this
+                  spot is {selected.spotKm} km from the centre). At the
+                  centre itself, within about 10 km, the average is Sun{' '}
+                  {selected.floorSun}% · Earth {selected.floorEarth}%.
+                  Source: NASA PGDA · Mazarico et al. (2011).
+                </p>
 
                 <div className="environment-grid">
 
@@ -2058,6 +2090,8 @@ function LandingSite({
                     <small>
                       SURFACE ESTIMATE
                     </small>
+
+                    <StatusTag field="temperature" />
                   </article>
 
                   <article className="environment-card">
@@ -2072,6 +2106,8 @@ function LandingSite({
                     <small>
                       LANDING SURFACE
                     </small>
+
+                    <StatusTag field="terrain" />
                   </article>
 
                   <article className="environment-card">
@@ -2086,6 +2122,8 @@ function LandingSite({
                     <small>
                       OPERATIONAL RISK
                     </small>
+
+                    <StatusTag field="risk" />
                   </article>
                 </div>
               </>
@@ -2416,6 +2454,12 @@ function LandingSite({
               <span>
                 RISK <b className={`is-${selected.risk.toLowerCase()}`}>{selected.risk}</b>
               </span>
+            </div>
+
+            <div className="ls-control-note">
+              <b className="ls-status is-estimate">
+                POWER &amp; EARTH BARS: NASA DATA · OTHERS: ESTIMATES
+              </b>
             </div>
           </div>
         </div>

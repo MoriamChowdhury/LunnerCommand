@@ -26,3 +26,11 @@ dist-ssr
 
 .env
 .env.*
+
+# Python data tools (tools/): the virtual environment and the big NASA map files
+# are NOT committed. The small JSON results in src/data ARE committed.
+tools/.venv/
+tools/raw/
+tools/inspect_out.txt
+__pycache__/
+*.pyc

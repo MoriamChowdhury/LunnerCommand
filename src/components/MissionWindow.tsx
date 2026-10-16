@@ -21,7 +21,7 @@ import {
 import { equipmentList } from '../data/equipment'
 
 import {
-  launchWindows,
+  windowsFor,
   type LaunchWindow,
 } from '../data/launchWindows.ts'
 
@@ -242,17 +242,16 @@ function computeTelemetry(
   ids: string[],
   win?: LaunchWindow
 ): Telemetry {
-  const sun = win?.sun ?? 65
-  const earth = win?.earth ?? 78
+  const sun = win?.sun ?? 50
+  const earth = win?.earth ?? 65
   const flare = win?.solarActivity ?? 0.2
 
   const solarGain = has(ids, 'solar')
-    ? 34 * (site.sunlight / 100) * (sun / 80)
+    ? 34 * (sun / 100)
     : 0
 
   const energy = clamp(
-    site.sunlight * 0.38 +
-      sun * 0.22 +
+    sun * 0.6 +
       solarGain +
       (has(ids, 'battery') ? 16 : 0) +
       (has(ids, 'thermal') ? 3 : 0) -
@@ -276,22 +275,21 @@ function computeTelemetry(
     68 +
       (has(ids, 'water') ? (iceRich ? 18 : 10) : 0) -
       (has(ids, 'rover') ? 6 : 0) +
-      (sun >= 70 ? 4 : 0)
+      (sun >= 55 ? 4 : 0)
   )
 
   const comms = clamp(
-    site.communication * 0.55 +
-      earth * 0.3 +
+    earth * 0.85 +
       (has(ids, 'comms') ? 20 : 0)
   )
 
   const surfaceTemp = Math.round(
-    parseTemperature(site.temperature) + (sun - 65) * 1.2
+    parseTemperature(site.temperature) + (sun - 50) * 1.2
   )
 
   const habitatTemp = has(ids, 'thermal')
     ? 21
-    : Math.round(15 - (65 - sun) * 0.15)
+    : Math.round(15 - (50 - sun) * 0.15)
 
   const radiation =
     Math.round(
@@ -709,7 +707,10 @@ export default function MissionWindow({
   const site =
     lunarSites.find((s) => s.id === selectedSite) ?? lunarSites[0]
 
-  const win = launchWindows.find((w) => w.id === selectedWindow)
+  /* the 12 launch windows for THIS site (real NASA monthly geometry) */
+  const windows = useMemo(() => windowsFor(site), [site])
+
+  const win = windows.find((w) => w.id === selectedWindow)
 
   /* ---------------- STATE ---------------- */
 
@@ -766,18 +767,18 @@ export default function MissionWindow({
 
   const scores = useMemo(
     () =>
-      launchWindows.map((w) => ({
+      windows.map((w) => ({
         id: w.id,
         score: windowScore(site, selectedEquipment, w),
         energy: computeTelemetry(site, selectedEquipment, w).energy,
       })),
-    [site, selectedEquipment]
+    [site, selectedEquipment, windows]
   )
 
   const bestWindow = useMemo(() => {
     const best = [...scores].sort((a, b) => b.score - a.score)[0]
-    return launchWindows.find((w) => w.id === best.id) ?? launchWindows[0]
-  }, [scores])
+    return windows.find((w) => w.id === best.id) ?? windows[0]
+  }, [scores, windows])
 
   const pollResults = useMemo(
     () => runPoll(site, selectedEquipment, telemetry, win),
@@ -937,7 +938,7 @@ export default function MissionWindow({
   }, [scores])
 
   const selectedIndex = win
-    ? launchWindows.findIndex((w) => w.id === win.id)
+    ? windows.findIndex((w) => w.id === win.id)
     : -1
 
   const waveMode: WaveMode = speaking
@@ -1142,7 +1143,7 @@ export default function MissionWindow({
       return
     }
 
-    const month = launchWindows.find(
+    const month = windows.find(
       (w) =>
         hasWord(text, w.month.toLowerCase()) ||
         hasWord(text, w.short.toLowerCase())
@@ -2083,7 +2084,7 @@ export default function MissionWindow({
               </div>
 
               <div className="mc-window-grid">
-                {launchWindows.map((w, i) => {
+                {windows.map((w, i) => {
                   const score = scores[i].score
                   const selected = w.id === selectedWindow
                   const best = w.id === bestWindow.id
@@ -2109,6 +2110,12 @@ export default function MissionWindow({
                   )
                 })}
               </div>
+
+              <p className="mc-window-note">
+                ☀ and ⌁ are NASA JPL Horizons sun and Earth geometry for
+                {' '}{site.name} in 2027, scaled to the NASA LRO/LOLA site
+                average. Solar activity is a game estimate.
+              </p>
 
               <div className="mc-chart">
                 <div className="mc-chart-head">
@@ -2141,7 +2148,7 @@ export default function MissionWindow({
                   <path d={chart.line} className="mc-chart-line" pathLength={1} />
 
                   {chart.pts.map((p, i) => (
-                    <g key={launchWindows[i].id}>
+                    <g key={windows[i].id}>
                       <circle
                         cx={p.x}
                         cy={p.y}
@@ -2149,7 +2156,7 @@ export default function MissionWindow({
                         className={i === selectedIndex ? 'mc-chart-dot is-selected' : 'mc-chart-dot'}
                       />
                       <text x={p.x} y={chart.h - 10} className="mc-chart-label">
-                        {launchWindows[i].short}
+                        {windows[i].short}
                       </text>
                     </g>
                   ))}

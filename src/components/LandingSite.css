@@ -6545,3 +6545,40 @@ body {
   bottom: -18vh;
   opacity: 0.14;
 }
+
+/* ---------- data status tags (NASA-based / estimate / check) ---------- */
+.ls-status {
+  display: inline-block;
+  margin-top: 6px;
+  padding: 2px 7px;
+  border: 1px solid currentColor;
+  border-radius: 999px;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  line-height: 1.4;
+  white-space: nowrap;
+}
+
+.ls-status.is-nasa { color: #73e2a5; }
+.ls-status.is-estimate { color: #e5bd72; }
+.ls-status.is-check { color: #ff9a8a; }
+
+.ls-control-note {
+  margin-top: 10px;
+}
+
+.ls-data-note {
+  margin: 14px 0 0;
+  padding: 10px 14px;
+  border-left: 2px solid #73e2a5;
+  background: rgba(115, 226, 165, 0.06);
+  color: rgba(220, 235, 245, 0.72);
+  font-size: 12px;
+  line-height: 1.6;
+}
+
+.ls-data-note b {
+  color: #73e2a5;
+  letter-spacing: 0.12em;
+}

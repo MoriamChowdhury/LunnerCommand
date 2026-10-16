@@ -6,7 +6,7 @@
    ========================================================= */
 
 import { lunarSites, type LunarSite } from './lunarSites'
-import { launchWindows, type LaunchWindow } from './launchWindows'
+import { launchWindows, windowFor, type LaunchWindow } from './launchWindows'
 import {
   EQUIPMENT_BUDGET,
   MASS_LIMIT,
@@ -122,18 +122,19 @@ export const parseTemperature = (value: string) => {
 
 /* solar panels work best with a sunny site AND a sunny month */
 export const solarFactor = (site: LunarSite, win: LaunchWindow) =>
-  (site.sunlight / 100 + win.sun / 100) / 2
+  windowFor(site, win).sun / 100
 
 /* ---------------- requirements ---------------- */
 
 export function getRequirements(
   site: LunarSite,
-  win: LaunchWindow
+  baseWin: LaunchWindow
 ): Record<SystemKey, number> {
+  const win = windowFor(site, baseWin)
   const cold = parseTemperature(site.temperature) <= -100
 
   return {
-    power: 22 + (cold ? 5 : 0) + (win.sun < 60 ? 5 : 0),
+    power: 22 + (cold ? 5 : 0) + (win.sun < 40 ? 5 : 0),
     comms: 22,
     safety:
       20 + (cold ? 8 : 0) + Math.round(win.solarActivity * 40),
@@ -165,12 +166,13 @@ export function itemContribution(
 
 export function getSupply(
   site: LunarSite,
-  win: LaunchWindow,
+  baseWin: LaunchWindow,
   items: EquipmentItem[]
 ) {
-  const baseComms = Math.round(
-    (site.communication / 100) * (win.earth / 100) * 30
-  )
+  const win = windowFor(site, baseWin)
+
+  /* the monthly Earth link already includes the site (NASA data) */
+  const baseComms = Math.round((win.earth / 100) * 30)
 
   const sum = (key: SystemKey | 'science') =>
     items.reduce(

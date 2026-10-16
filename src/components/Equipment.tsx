@@ -12,6 +12,8 @@ import type {
 } from 'react'
 
 import {
+  SUN_GOOD,
+  SUN_USABLE,
   lunarSites,
   type LunarSite,
 } from '../data/lunarSites'
@@ -210,8 +212,8 @@ function computeReadiness(
 function getRecommendations(site: LunarSite): string[] {
   const recs: string[] = []
 
-  if (site.sunlight >= 70) recs.push('solar')
-  if (site.sunlight < 80) recs.push('battery')
+  if (site.sunlight >= SUN_USABLE) recs.push('solar')
+  if (site.sunlight < SUN_GOOD) recs.push('battery')
   if (site.communication < 90) recs.push('comms')
   if (parseTemperature(site.temperature) <= -100) recs.push('thermal')
   if (site.ice === 'VERY HIGH' || site.ice === 'HIGH') recs.push('water')
@@ -227,11 +229,11 @@ function getSiteNote(
   if (item.sunDependent) {
     return {
       text: `OUTPUT ×${site.sunlight}% AT ${site.code}`,
-      tone: site.sunlight >= 75 ? 'good' : 'warn',
+      tone: site.sunlight >= SUN_GOOD ? 'good' : 'warn',
     }
   }
 
-  if (item.id === 'battery' && site.sunlight < 80) {
+  if (item.id === 'battery' && site.sunlight < SUN_GOOD) {
     return { text: 'HIGH VALUE — LIMITED SUNLIGHT', tone: 'good' }
   }
 
@@ -280,7 +282,7 @@ function getWarnings(
     warnings.push('NO PRIMARY POWER SOURCE INSTALLED')
   }
 
-  if (site.sunlight < 70 && !hasBattery) {
+  if (site.sunlight < SUN_GOOD && !hasBattery) {
     warnings.push('LOW-LIGHT SITE WITHOUT ENERGY STORAGE')
   }
 

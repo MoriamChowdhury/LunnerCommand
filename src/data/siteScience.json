@@ -1,0 +1,593 @@
+{
+  "generated_by": "tools/build_site_data.py",
+  "what_this_is": "Long-term AVERAGE percent of time, from NASA LRO/LOLA polar illumination maps. Not a value for one specific month.",
+  "radius_km": 10.0,
+  "citation": "Mazarico, E., et al. (2011), Icarus 211, 1066-1081",
+  "source_url": "https://pgda.gsfc.nasa.gov/products/69",
+  "sources": {
+    "sun": {
+      "file": "AVGVISIB_65S_240M_201608.tiff",
+      "product_id": "AVGVISIB_65S_240M_201608",
+      "dataset_id": "LRO-L-LOLA-4-GDR-V1.0",
+      "instrument": "LUNAR ORBITER LASER ALTIMETER",
+      "producer": "GODDARD SPACE FLIGHT CENTER",
+      "topography_start": "2009-07-13T17:33:17.246",
+      "topography_stop": "2013-07-18T14:12:13",
+      "product_created": "2016-09-15T00:00:00",
+      "pixel_size_m": 240.0,
+      "scale": 4e-05
+    },
+    "earth": {
+      "file": "AVGVISIB_65S_240M_201608_EARTH.tiff",
+      "product_id": "AVGVISIB_65S_240M_201608_EARTH",
+      "dataset_id": "LRO-L-LOLA-4-GDR-V1.0",
+      "instrument": "LUNAR ORBITER LASER ALTIMETER",
+      "producer": "GODDARD SPACE FLIGHT CENTER",
+      "topography_start": "2009-07-13T17:33:17.246",
+      "topography_stop": "2013-07-18T14:12:13",
+      "product_created": "2016-09-15T00:00:00",
+      "pixel_size_m": 240.0,
+      "scale": 4e-05
+    }
+  },
+  "sites": {
+    "shackleton": {
+      "name": "Shackleton Crater",
+      "latitude": -89.7,
+      "longitude_east": 129.8,
+      "map_x_m": 6989.1,
+      "map_y_m": -5823.1,
+      "sun": {
+        "row": 3234,
+        "col": 3239,
+        "pixels": 5525,
+        "center": 0.0,
+        "mean": 5.3,
+        "median": 0.0,
+        "p10": 0.0,
+        "p90": 22.1,
+        "max": 90.8,
+        "zero_share": 73.5
+      },
+      "earth": {
+        "row": 3234,
+        "col": 3239,
+        "pixels": 5525,
+        "center": 0.0,
+        "mean": 8.9,
+        "median": 0.0,
+        "p10": 0.0,
+        "p90": 39.3,
+        "max": 57.2,
+        "zero_share": 71.0
+      },
+      "near_spot": {
+        "how_chosen": "highest average of Sun % and Earth % within 10.5 km (the crater's own radius) of the site centre, judged over ~1 km",
+        "latitude": -89.81,
+        "longitude_east": -148.627,
+        "search_radius_km": 10.5,
+        "distance_from_centre_km": 10.0,
+        "sun": {
+          "row": 3230,
+          "col": 3197,
+          "pixels": 49,
+          "center": 39.9,
+          "mean": 47.1,
+          "median": 42.3,
+          "p10": 37.5,
+          "p90": 71.7,
+          "max": 81.3,
+          "zero_share": 0.0
+        },
+        "earth": {
+          "row": 3230,
+          "col": 3197,
+          "pixels": 49,
+          "center": 56.4,
+          "mean": 55.6,
+          "median": 56.4,
+          "p10": 56.0,
+          "p90": 56.6,
+          "max": 56.6,
+          "zero_share": 0.0
+        }
+      },
+      "best_spot": {
+        "how_chosen": "highest average of Sun % and Earth % within 20.0 km of the site centre, judged over ~1 km",
+        "latitude": -89.452,
+        "longitude_east": -134.415,
+        "search_radius_km": 20.0,
+        "distance_from_centre_km": 19.7,
+        "sun": {
+          "row": 3258,
+          "col": 3160,
+          "pixels": 49,
+          "center": 49.3,
+          "mean": 48.0,
+          "median": 47.6,
+          "p10": 33.4,
+          "p90": 65.5,
+          "max": 93.5,
+          "zero_share": 2.0
+        },
+        "earth": {
+          "row": 3258,
+          "col": 3160,
+          "pixels": 49,
+          "center": 58.0,
+          "mean": 56.6,
+          "median": 57.9,
+          "p10": 57.6,
+          "p90": 58.2,
+          "max": 58.2,
+          "zero_share": 0.0
+        }
+      }
+    },
+    "cabeus": {
+      "name": "Cabeus Crater",
+      "latitude": -84.9,
+      "longitude_east": -35.5,
+      "map_x_m": -89864.5,
+      "map_y_m": 125985.4,
+      "sun": {
+        "row": 2685,
+        "col": 2835,
+        "pixels": 5525,
+        "center": 0.0,
+        "mean": 3.7,
+        "median": 2.9,
+        "p10": 0.0,
+        "p90": 8.8,
+        "max": 12.2,
+        "zero_share": 28.1
+      },
+      "earth": {
+        "row": 2685,
+        "col": 2835,
+        "pixels": 5525,
+        "center": 20.0,
+        "mean": 16.1,
+        "median": 19.6,
+        "p10": 0.0,
+        "p90": 32.5,
+        "max": 35.9,
+        "zero_share": 26.5
+      },
+      "near_spot": {
+        "how_chosen": "highest average of Sun % and Earth % within 50.0 km (the crater's own radius) of the site centre, judged over ~1 km",
+        "latitude": -83.563,
+        "longitude_east": -33.934,
+        "search_radius_km": 50.0,
+        "distance_from_centre_km": 40.9,
+        "sun": {
+          "row": 2534,
+          "col": 2755,
+          "pixels": 49,
+          "center": 52.2,
+          "mean": 50.8,
+          "median": 50.4,
+          "p10": 48.7,
+          "p90": 53.0,
+          "max": 58.2,
+          "zero_share": 0.0
+        },
+        "earth": {
+          "row": 2534,
+          "col": 2755,
+          "pixels": 49,
+          "center": 100.0,
+          "mean": 100.0,
+          "median": 100.0,
+          "p10": 100.0,
+          "p90": 100.0,
+          "max": 100.0,
+          "zero_share": 0.0
+        }
+      },
+      "best_spot": {
+        "how_chosen": "highest average of Sun % and Earth % within 60.0 km of the site centre, judged over ~1 km",
+        "latitude": -83.563,
+        "longitude_east": -33.934,
+        "search_radius_km": 60.0,
+        "distance_from_centre_km": 40.9,
+        "sun": {
+          "row": 2534,
+          "col": 2755,
+          "pixels": 49,
+          "center": 52.2,
+          "mean": 50.8,
+          "median": 50.4,
+          "p10": 48.7,
+          "p90": 53.0,
+          "max": 58.2,
+          "zero_share": 0.0
+        },
+        "earth": {
+          "row": 2534,
+          "col": 2755,
+          "pixels": 49,
+          "center": 100.0,
+          "mean": 100.0,
+          "median": 100.0,
+          "p10": 100.0,
+          "p90": 100.0,
+          "max": 100.0,
+          "zero_share": 0.0
+        }
+      }
+    },
+    "haworth": {
+      "name": "Haworth Crater",
+      "latitude": -86.9,
+      "longitude_east": -4.0,
+      "map_x_m": -6558.9,
+      "map_y_m": 93796.3,
+      "sun": {
+        "row": 2819,
+        "col": 3182,
+        "pixels": 5525,
+        "center": 0.0,
+        "mean": 2.6,
+        "median": 0.7,
+        "p10": 0.0,
+        "p90": 7.8,
+        "max": 18.8,
+        "zero_share": 43.7
+      },
+      "earth": {
+        "row": 2819,
+        "col": 3182,
+        "pixels": 5525,
+        "center": 0.0,
+        "mean": 0.0,
+        "median": 0.0,
+        "p10": 0.0,
+        "p90": 0.0,
+        "max": 13.2,
+        "zero_share": 99.7
+      },
+      "near_spot": {
+        "how_chosen": "highest average of Sun % and Earth % within 25.5 km (the crater's own radius) of the site centre, judged over ~1 km",
+        "latitude": -86.867,
+        "longitude_east": -18.481,
+        "search_radius_km": 25.5,
+        "distance_from_centre_km": 23.8,
+        "sun": {
+          "row": 2834,
+          "col": 3084,
+          "pixels": 49,
+          "center": 33.9,
+          "mean": 30.0,
+          "median": 29.5,
+          "p10": 23.7,
+          "p90": 35.3,
+          "max": 46.6,
+          "zero_share": 0.0
+        },
+        "earth": {
+          "row": 2834,
+          "col": 3084,
+          "pixels": 49,
+          "center": 67.8,
+          "mean": 66.8,
+          "median": 67.4,
+          "p10": 65.3,
+          "p90": 68.5,
+          "max": 69.0,
+          "zero_share": 0.0
+        }
+      },
+      "best_spot": {
+        "how_chosen": "highest average of Sun % and Earth % within 36.0 km of the site centre, judged over ~1 km",
+        "latitude": -86.407,
+        "longitude_east": -22.188,
+        "search_radius_km": 36.0,
+        "distance_from_centre_km": 35.3,
+        "sun": {
+          "row": 2789,
+          "col": 3038,
+          "pixels": 49,
+          "center": 36.4,
+          "mean": 35.6,
+          "median": 35.1,
+          "p10": 32.4,
+          "p90": 39.0,
+          "max": 48.5,
+          "zero_share": 0.0
+        },
+        "earth": {
+          "row": 2789,
+          "col": 3038,
+          "pixels": 49,
+          "center": 81.0,
+          "mean": 80.5,
+          "median": 80.8,
+          "p10": 79.3,
+          "p90": 81.8,
+          "max": 82.1,
+          "zero_share": 0.0
+        }
+      }
+    },
+    "shoemaker": {
+      "name": "Shoemaker Crater",
+      "latitude": -88.1,
+      "longitude_east": 44.9,
+      "map_x_m": 40672.1,
+      "map_y_m": 40814.3,
+      "sun": {
+        "row": 3039,
+        "col": 3379,
+        "pixels": 5525,
+        "center": 0.0,
+        "mean": 0.0,
+        "median": 0.0,
+        "p10": 0.0,
+        "p90": 0.0,
+        "max": 0.0,
+        "zero_share": 100.0
+      },
+      "earth": {
+        "row": 3039,
+        "col": 3379,
+        "pixels": 5525,
+        "center": 22.7,
+        "mean": 17.6,
+        "median": 20.8,
+        "p10": 0.0,
+        "p90": 32.4,
+        "max": 35.0,
+        "zero_share": 18.9
+      },
+      "near_spot": {
+        "how_chosen": "highest average of Sun % and Earth % within 25.5 km (the crater's own radius) of the site centre, judged over ~1 km",
+        "latitude": -88.572,
+        "longitude_east": 20.946,
+        "search_radius_km": 25.5,
+        "distance_from_centre_km": 25.2,
+        "sun": {
+          "row": 3041,
+          "col": 3274,
+          "pixels": 49,
+          "center": 35.6,
+          "mean": 30.7,
+          "median": 31.2,
+          "p10": 22.3,
+          "p90": 36.6,
+          "max": 39.5,
+          "zero_share": 0.0
+        },
+        "earth": {
+          "row": 3041,
+          "col": 3274,
+          "pixels": 49,
+          "center": 54.0,
+          "mean": 53.6,
+          "median": 54.0,
+          "p10": 53.1,
+          "p90": 54.4,
+          "max": 54.5,
+          "zero_share": 0.0
+        }
+      },
+      "best_spot": {
+        "how_chosen": "highest average of Sun % and Earth % within 36.0 km of the site centre, judged over ~1 km",
+        "latitude": -88.475,
+        "longitude_east": 75.423,
+        "search_radius_km": 36.0,
+        "distance_from_centre_km": 29.5,
+        "sun": {
+          "row": 3161,
+          "col": 3396,
+          "pixels": 49,
+          "center": 35.9,
+          "mean": 35.0,
+          "median": 33.5,
+          "p10": 25.8,
+          "p90": 44.2,
+          "max": 54.5,
+          "zero_share": 0.0
+        },
+        "earth": {
+          "row": 3161,
+          "col": 3396,
+          "pixels": 49,
+          "center": 56.6,
+          "mean": 56.0,
+          "median": 56.5,
+          "p10": 55.8,
+          "p90": 56.9,
+          "max": 56.9,
+          "zero_share": 0.0
+        }
+      }
+    },
+    "malapert": {
+      "name": "Malapert Massif",
+      "latitude": -85.9,
+      "longitude_east": 0.0,
+      "map_x_m": 0.0,
+      "map_y_m": 124378.8,
+      "sun": {
+        "row": 2691,
+        "col": 3210,
+        "pixels": 5525,
+        "center": 46.3,
+        "mean": 40.2,
+        "median": 40.9,
+        "p10": 29.7,
+        "p90": 48.5,
+        "max": 83.4,
+        "zero_share": 0.0
+      },
+      "earth": {
+        "row": 2691,
+        "col": 3210,
+        "pixels": 5525,
+        "center": 100.0,
+        "mean": 67.7,
+        "median": 97.9,
+        "p10": 0.0,
+        "p90": 100.0,
+        "max": 100.0,
+        "zero_share": 25.0
+      },
+      "near_spot": {
+        "how_chosen": "highest average of Sun % and Earth % within 15.0 km (the crater's own radius) of the site centre, judged over ~1 km",
+        "latitude": -85.942,
+        "longitude_east": 2.179,
+        "search_radius_km": 15.0,
+        "distance_from_centre_km": 4.9,
+        "sun": {
+          "row": 2697,
+          "col": 3229,
+          "pixels": 49,
+          "center": 50.8,
+          "mean": 51.3,
+          "median": 51.1,
+          "p10": 48.8,
+          "p90": 54.3,
+          "max": 58.4,
+          "zero_share": 0.0
+        },
+        "earth": {
+          "row": 2697,
+          "col": 3229,
+          "pixels": 49,
+          "center": 100.0,
+          "mean": 100.0,
+          "median": 100.0,
+          "p10": 100.0,
+          "p90": 100.0,
+          "max": 100.0,
+          "zero_share": 0.0
+        }
+      },
+      "best_spot": {
+        "how_chosen": "highest average of Sun % and Earth % within 15.0 km of the site centre, judged over ~1 km",
+        "latitude": -85.942,
+        "longitude_east": 2.179,
+        "search_radius_km": 15.0,
+        "distance_from_centre_km": 4.9,
+        "sun": {
+          "row": 2697,
+          "col": 3229,
+          "pixels": 49,
+          "center": 50.8,
+          "mean": 51.3,
+          "median": 51.1,
+          "p10": 48.8,
+          "p90": 54.3,
+          "max": 58.4,
+          "zero_share": 0.0
+        },
+        "earth": {
+          "row": 2697,
+          "col": 3229,
+          "pixels": 49,
+          "center": 100.0,
+          "mean": 100.0,
+          "median": 100.0,
+          "p10": 100.0,
+          "p90": 100.0,
+          "max": 100.0,
+          "zero_share": 0.0
+        }
+      }
+    },
+    "de-gerlache": {
+      "name": "de Gerlache Crater",
+      "latitude": -88.5,
+      "longitude_east": -87.1,
+      "map_x_m": -45429.4,
+      "map_y_m": 2301.4,
+      "sun": {
+        "row": 3200,
+        "col": 3020,
+        "pixels": 5525,
+        "center": 0.1,
+        "mean": 3.8,
+        "median": 0.0,
+        "p10": 0.0,
+        "p90": 15.1,
+        "max": 31.0,
+        "zero_share": 49.8
+      },
+      "earth": {
+        "row": 3200,
+        "col": 3020,
+        "pixels": 5525,
+        "center": 0.0,
+        "mean": 1.1,
+        "median": 0.0,
+        "p10": 0.0,
+        "p90": 3.6,
+        "max": 22.5,
+        "zero_share": 80.8
+      },
+      "near_spot": {
+        "how_chosen": "highest average of Sun % and Earth % within 16.0 km (the crater's own radius) of the site centre, judged over ~1 km",
+        "latitude": -88.69,
+        "longitude_east": -67.074,
+        "search_radius_km": 16.0,
+        "distance_from_centre_km": 15.9,
+        "sun": {
+          "row": 3145,
+          "col": 3057,
+          "pixels": 49,
+          "center": 44.3,
+          "mean": 48.8,
+          "median": 46.1,
+          "p10": 41.8,
+          "p90": 60.1,
+          "max": 80.5,
+          "zero_share": 0.0
+        },
+        "earth": {
+          "row": 3145,
+          "col": 3057,
+          "pixels": 49,
+          "center": 60.9,
+          "mean": 60.6,
+          "median": 60.8,
+          "p10": 60.3,
+          "p90": 61.2,
+          "max": 61.4,
+          "zero_share": 0.0
+        }
+      },
+      "best_spot": {
+        "how_chosen": "highest average of Sun % and Earth % within 26.0 km of the site centre, judged over ~1 km",
+        "latitude": -88.69,
+        "longitude_east": -67.074,
+        "search_radius_km": 26.0,
+        "distance_from_centre_km": 15.9,
+        "sun": {
+          "row": 3145,
+          "col": 3057,
+          "pixels": 49,
+          "center": 44.3,
+          "mean": 48.8,
+          "median": 46.1,
+          "p10": 41.8,
+          "p90": 60.1,
+          "max": 80.5,
+          "zero_share": 0.0
+        },
+        "earth": {
+          "row": 3145,
+          "col": 3057,
+          "pixels": 49,
+          "center": 60.9,
+          "mean": 60.6,
+          "median": 60.8,
+          "p10": 60.3,
+          "p90": 61.2,
+          "max": 61.4,
+          "zero_share": 0.0
+        }
+      }
+    }
+  }
+}

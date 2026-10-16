@@ -1,75 +1,47 @@
-# React + TypeScript + Vite
+# Moonix
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+**An educational lunar mission game** built for the NASA Space Apps Challenge 2026
+(*CLPS Lunar Mission Browser*), by Team Lunar Odyssey.
 
-Currently, two official plugins are available:
+You compare lunar south pole landing sites and launch months, then outfit a lander
+so its **power**, **Earth link** and **crew safety** survive the mission.
+The Sun and Earth numbers come from real NASA data. See
+[DATA_SOURCES.md](DATA_SOURCES.md) for what is real, what is a game estimate,
+and the limits.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## How the game works
 
-## React Compiler
+1. **Site:** pick one of 6 south pole sites (Shackleton, Cabeus, Haworth, Shoemaker, Malapert, de Gerlache).
+2. **Equipment:** choose modules within a budget and mass limit.
+3. **Launch window:** pick a month. Each site has its own real Sun and Earth pattern for that month.
+4. **Mission:** the computer checks power, Earth link and safety, then lands or aborts.
+5. **Results:** report card, lessons learned and a journal.
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+Try it: Shackleton in **March** has no direct sunlight, so no equipment kit within the budget can win. In **October** it has strong sunlight and a well-chosen lander wins.
 
-## Expanding the ESLint configuration
+## Run it
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
-
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-
+```bash
+npm install
+npm run dev
 ```
 
-You can also install [eslint-plugin-react-x](https://npmx.dev/package/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://npmx.dev/package/eslint-plugin-react-dom) for React-specific lint rules:
+Build for production: `npm run build`.
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+Built with React, Vite and TypeScript. There is **no backend**; progress is saved in the browser (`localStorage`).
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+## Data and tools
 
-```
+The game imports two small JSON files made from NASA data:
+
+- `src/data/siteScience.json`: Sun % and Earth link % per site (NASA LRO/LOLA)
+- `src/data/launchWindowsScience.json`: monthly Sun and Earth geometry (NASA JPL Horizons)
+
+The Python scripts that make them are in `tools/` (optional, not part of the game).
+How to rebuild them is explained in [DATA_SOURCES.md](DATA_SOURCES.md).
+
+## Honest note
+
+Moonix is for learning, not for planning real missions. Values are long-term
+averages, landing safety (slopes and rocks) is not modelled, and several labels
+on screen (such as terrain, risk, temperature and ice) are game estimates.

@@ -4,6 +4,8 @@ import type { CSSProperties } from 'react'
 
 import { MASS_LIMIT, equipmentList } from '../data/equipment'
 
+import { windowFor } from '../data/launchWindows'
+
 import {
   evaluateMission,
   findCheapestFix,
@@ -73,7 +75,13 @@ export default function MissionFailure({
   onRestart,
 }: MissionFailureProps) {
   const site = findSite(result.siteId)
-  const win = findWindow(result.windowId)
+  const win = windowFor(site, findWindow(result.windowId))
+
+  /* in a month with almost no sunlight, solar panels cannot be the answer */
+  const powerHelp =
+    win.sun < 5
+      ? `There is almost no sunlight at ${site.name} in ${win.month.toLowerCase()}, so solar panels make very little power. Batteries can store energy for the dark, or you can choose a sunnier month.`
+      : SHORTAGE_HELP.power
 
   const [repairing, setRepairing] = useState(false)
   const [added, setAdded] = useState<string[]>([])
@@ -446,7 +454,7 @@ export default function MissionFailure({
 
                     {!repairing && (
                       <>
-                        <p>{SHORTAGE_HELP[row.key]}</p>
+                        <p>{row.key === 'power' ? powerHelp : SHORTAGE_HELP[row.key]}</p>
                         {helpers.length > 0 && (
                           <div className="mf-helpers">
                             <span>WHAT HELPS:</span>
