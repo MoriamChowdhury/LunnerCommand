@@ -146,16 +146,27 @@ DATA_SOURCES.md Full list of data sources and methods
 
 We used AI tools while building this project, and we checked and edited everything they produced.
 
-- **ChatGPT:** `<describe what you used it for, for example scriptwriting and planning>`
-- **Claude (Anthropic):** code review, data-source checks, documentation and video-script editing.
+- **ChatGPT (OpenAI):** Coding assistance, debugging, technical guidance, and problem-solving.
+- **Claude (Anthropic):** Code development, implementation assistance, and AI voice integration.
 
-A fuller description is in [`docs/AI_USE.md`](docs/AI_USE.md).
 
 ---
 
 ## Team
 
-**Team Lunar Odyssey**: `<add member names and roles>`
+**Team Lunar Odyssey**: 
+
+.Moriam Chowdhury - Team Leader & Game Logic Developer 
+
+.Khadija Akter - Frontend Developer
+
+. Sabiha Ferdousi Saba  - Data Scientist 
+
+.Jannatul Mowa Somaya - Video Editor & Presentation Lead
+
+. Noshin Nawar - UI/UX Designer
+
+. Nahida sultana - Script Writer & Narrative Lead
 
 ## License
 
