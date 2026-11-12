@@ -14,7 +14,7 @@ import type {
 import {
   SUN_GOOD,
   SUN_USABLE,
-  lunarSites,
+  resolveSite,
   type LunarSite,
 } from '../data/lunarSites'
 
@@ -212,6 +212,7 @@ function computeReadiness(
 function getRecommendations(site: LunarSite): string[] {
   const recs: string[] = []
 
+  if (site.sunlight < SUN_USABLE) recs.push('rtg')
   if (site.sunlight >= SUN_USABLE) recs.push('solar')
   if (site.sunlight < SUN_GOOD) recs.push('battery')
   if (site.communication < 90) recs.push('comms')
@@ -231,6 +232,10 @@ function getSiteNote(
       text: `OUTPUT ×${site.sunlight}% AT ${site.code}`,
       tone: site.sunlight >= SUN_GOOD ? 'good' : 'warn',
     }
+  }
+
+  if (item.id === 'rtg' && site.sunlight < SUN_USABLE) {
+    return { text: 'WORKS IN PERMANENT DARK', tone: 'good' }
   }
 
   if (item.id === 'battery' && site.sunlight < SUN_GOOD) {
@@ -278,7 +283,7 @@ function getWarnings(
   const hasSolar = ids.includes('solar')
   const hasBattery = ids.includes('battery')
 
-  if (!hasSolar && !hasBattery) {
+  if (!hasSolar && !hasBattery && !ids.includes('rtg')) {
     warnings.push('NO PRIMARY POWER SOURCE INSTALLED')
   }
 
@@ -309,6 +314,7 @@ function autoConfigure(site: LunarSite, budget: number): string[] {
     ...getRecommendations(site),
     'solar',
     'battery',
+    'rtg',
     'comms',
     'water',
     'thermal',
@@ -361,8 +367,7 @@ export default function Equipment({
   budget = EQUIPMENT_BUDGET,
 }: EquipmentProps) {
   const site =
-    lunarSites.find((s) => s.id === selectedSite) ??
-    lunarSites[0]
+    resolveSite(selectedSite)
 
   const [filter, setFilter] = useState<Filter>('all')
   const [inspectedId, setInspectedId] = useState(

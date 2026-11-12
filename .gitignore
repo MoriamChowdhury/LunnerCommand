@@ -34,3 +34,6 @@ tools/raw/
 tools/inspect_out.txt
 __pycache__/
 *.pyc
+
+structure.txt
+tools/.venv_old/

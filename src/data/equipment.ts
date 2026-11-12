@@ -206,4 +206,22 @@ export const equipmentList: EquipmentItem[] = [
       "NASA's Lunar Terrain Vehicle (LTV) program is developing a rover that Artemis astronauts can drive around the south pole region.",
     voiceAliases: ['rover', 'vehicle', 'terrain vehicle', 'buggy', 'ltv'],
   },
+  {
+    id: 'rtg',
+    code: 'EQ-09',
+    name: 'Nuclear Power Unit',
+    shortName: 'Nuclear unit',
+    category: 'power',
+    icon: '☢',
+    color: '#e5bd72',
+    cost: 180,
+    mass: 420,
+    stats: { power: 30, comms: 0, safety: 0, science: 0 },
+    tagline: 'Power that does not need the Sun.',
+    description:
+      'Makes steady electricity from nuclear heat, day and night. It is the only way to keep a base alive inside a permanently dark crater floor, where solar panels make almost nothing.',
+    realWorld:
+      "The Apollo 12 to 17 science stations ran on small radioisotope power units, and NASA is developing fission power systems so future Moon bases can work through the long lunar night.",
+    voiceAliases: ['nuclear', 'nuclear power', 'nuclear unit', 'rtg', 'reactor', 'fission'],
+  },
 ]

@@ -14,16 +14,23 @@ import type {
 } from 'react'
 
 import {
+  baseSiteId,
   lunarSites,
+  resolveSite,
   type LunarSite,
 } from '../data/lunarSites'
 
 import { equipmentList } from '../data/equipment'
 
 import {
+  isFloorSite,
+  skyFor,
+  longestBelowHorizon,
   windowsFor,
   type LaunchWindow,
 } from '../data/launchWindows.ts'
+
+import HorizonChart from './HorizonChart'
 
 import './MissionWindow.css'
 
@@ -254,6 +261,7 @@ function computeTelemetry(
     sun * 0.6 +
       solarGain +
       (has(ids, 'battery') ? 16 : 0) +
+      (has(ids, 'rtg') ? 24 : 0) +
       (has(ids, 'thermal') ? 3 : 0) -
       (has(ids, 'lab') ? 7 : 0) -
       (has(ids, 'rover') ? 5 : 0)
@@ -369,7 +377,7 @@ function runPoll(
       name: 'INCO',
       role: 'Communications',
       go: t.comms >= 65,
-      note: `Earth link ${t.comms}%`,
+      note: `Signal ${t.comms}%`,
     },
     {
       id: 'eva',
@@ -399,7 +407,9 @@ function buildAlerts(
   site: LunarSite,
   ids: string[],
   t: Telemetry,
-  win: LaunchWindow | undefined
+  win: LaunchWindow | undefined,
+  blackoutDays: number,
+  floorEarth: number | null
 ): MissionAlert[] {
   const alerts: MissionAlert[] = []
 
@@ -446,12 +456,33 @@ function buildAlerts(
     })
   }
 
+  if (floorEarth !== null) {
+    /* crater floor: the walls hide the sky, so use the NASA average */
+    if (floorEarth < 60) {
+      alerts.push({
+        id: 'blackout',
+        level: floorEarth < 30 ? 'critical' : 'warning',
+        title: 'RADIO BLACKOUT AHEAD',
+        detail: `On the crater floor Earth is in view only ${floorEarth}% of this month (NASA LRO/LOLA average). Expect long radio silence.`,
+      })
+    }
+  } else if (blackoutDays >= 1) {
+    alerts.push({
+      id: 'blackout',
+      level: blackoutDays >= 10 ? 'critical' : 'warning',
+      title: 'RADIO BLACKOUT AHEAD',
+      detail: `Earth stays below the horizon for up to ${blackoutDays.toFixed(1)} days this month. No direct link then (flat-horizon estimate, NASA Horizons).`,
+    })
+  }
+
   if (t.comms < 65) {
     alerts.push({
       id: 'comms',
       level: 'warning',
-      title: 'EARTH LINK DEGRADED',
-      detail: 'Terrain masking expected — relay advised.',
+      title: 'SIGNAL BELOW TARGET',
+      detail: has(ids, 'comms')
+        ? `Signal strength ${t.comms}% (game estimate), even with your relay antenna. A different month, spot or site gives a stronger link.`
+        : `Signal strength ${t.comms}% (game estimate). A relay antenna helps.`,
     })
   }
 
@@ -704,8 +735,7 @@ export default function MissionWindow({
   onBack,
   onContinue,
 }: MissionWindowProps) {
-  const site =
-    lunarSites.find((s) => s.id === selectedSite) ?? lunarSites[0]
+  const site = resolveSite(selectedSite)
 
   /* the 12 launch windows for THIS site (real NASA monthly geometry) */
   const windows = useMemo(() => windowsFor(site), [site])
@@ -780,6 +810,13 @@ export default function MissionWindow({
     return windows.find((w) => w.id === best.id) ?? windows[0]
   }, [scores, windows])
 
+  /* the sky of the chosen month (or the best month until one is chosen) */
+  const skyWindow = win ?? bestWindow
+  const sky = useMemo(
+    () => skyFor(site, skyWindow.id),
+    [site, skyWindow.id]
+  )
+
   const pollResults = useMemo(
     () => runPoll(site, selectedEquipment, telemetry, win),
     [site, selectedEquipment, telemetry, win]
@@ -790,9 +827,24 @@ export default function MissionWindow({
   const pollDone = pollStep >= pollResults.length
   const pollGo = pollDone && pollResults.every((r) => r.go)
 
+  const blackoutDays = useMemo(
+    () => (win && sky ? longestBelowHorizon(sky.earth, sky.stepHours) : 0),
+    [win, sky]
+  )
+
+  const floorEarth = win && isFloorSite(site) ? win.earth : null
+
   const alerts = useMemo(
-    () => buildAlerts(site, selectedEquipment, telemetry, win),
-    [site, selectedEquipment, telemetry, win]
+    () =>
+      buildAlerts(
+        site,
+        selectedEquipment,
+        telemetry,
+        win,
+        blackoutDays,
+        floorEarth
+      ),
+    [site, selectedEquipment, telemetry, win, blackoutDays, floorEarth]
   )
 
   const criticalCount = alerts.filter(
@@ -1024,7 +1076,7 @@ export default function MissionWindow({
 
     setVoiceStatus(`${w.short} WINDOW LOCKED`)
     respond(
-      `${w.month} window locked. Power margin ${t.energy} percent, Earth link ${t.comms} percent, radiation ${t.radiation.toFixed(2)} millisieverts per day. Window score ${score}. ${w.note}`,
+      `${w.month} window locked. Power margin ${t.energy} percent, Signal strength ${t.comms} percent with your antenna, radiation ${t.radiation.toFixed(2)} millisieverts per day. Window score ${score}. ${w.note}`,
       command ?? `Select ${w.month}`,
       source
     )
@@ -1203,7 +1255,7 @@ export default function MissionWindow({
 
     if (/\b(comms|communication|signal|link)\b/.test(text)) {
       respond(
-        `Earth link at ${telemetry.comms} percent${hasRelay ? ', relay antenna aboard' : ', no relay installed'}. Deep Space Network pass through Canberra.`,
+        `Signal strength at ${telemetry.comms} percent${hasRelay ? ', relay antenna aboard' : ', no relay installed'}. Deep Space Network pass through Canberra.`,
         raw,
         source
       )
@@ -1678,7 +1730,15 @@ export default function MissionWindow({
                 <span>01</span>
                 <div>
                   <small>LANDING SITE</small>
-                  <h2>{site.name}</h2>
+                  <h2
+                    style={{
+                      whiteSpace: 'normal',
+                      overflow: 'visible',
+                      textOverflow: 'clip',
+                    }}
+                  >
+                    {site.name}
+                  </h2>
                 </div>
                 <em className={`mc-risk mc-risk-${site.risk.toLowerCase()}`}>
                   {site.risk}
@@ -1730,7 +1790,7 @@ export default function MissionWindow({
               <div className="mc-panel-head">
                 <span>02</span>
                 <div>
-                  <small>LIFE SUPPORT & SYSTEMS</small>
+                  <small>LIFE SUPPORT & SYSTEMS · SIMULATED</small>
                   <h2>Vehicle Telemetry</h2>
                 </div>
                 <span className="mc-live">
@@ -1791,7 +1851,7 @@ export default function MissionWindow({
               <div className="mc-panel-head">
                 <span>03</span>
                 <div>
-                  <small>ENVIRONMENT</small>
+                  <small>ENVIRONMENT · SIMULATED</small>
                   <h2>Thermal & Radiation</h2>
                 </div>
               </div>
@@ -1862,7 +1922,7 @@ export default function MissionWindow({
               <div className="mc-panel-head">
                 <span>04</span>
                 <div>
-                  <small>CREW STATUS</small>
+                  <small>CREW STATUS · SIMULATED</small>
                   <h2>Biometrics</h2>
                 </div>
                 <strong className="mc-crew-index">{telemetry.crew}%</strong>
@@ -1947,7 +2007,7 @@ export default function MissionWindow({
 
                     {lunarSites.map((s) => {
                       const p = markerPosition(s)
-                      const active = s.id === site.id
+                      const active = s.id === baseSiteId(site.id)
 
                       return (
                         <span
@@ -2046,7 +2106,7 @@ export default function MissionWindow({
                   <strong>{site.code} · {site.name}</strong>
                 </div>
                 <div>
-                  <small>SUNLIGHT</small>
+                  <small>SUNLIGHT (YEAR AVG)</small>
                   <strong>{site.sunlight}%</strong>
                 </div>
                 <div>
@@ -2110,6 +2170,26 @@ export default function MissionWindow({
                   )
                 })}
               </div>
+
+              {sky ? (
+                <HorizonChart
+                  sky={sky}
+                  siteName={site.name}
+                  monthName={skyWindow.month}
+                  isBestMonth={!win}
+                />
+              ) : isFloorSite(site) ? (
+                <p className="mc-window-note">
+                  Crater floor: the walls hide most of the sky, so a
+                  flat-horizon chart would mislead. The NASA LRO/LOLA average
+                  is used instead: Sun {site.sunlight}% · Earth{' '}
+                  {site.communication}%.
+                </p>
+              ) : (
+                <p className="mc-window-note">
+                  Horizon chart needs new data. Run: python tools/build_window_data.py
+                </p>
+              )}
 
               <p className="mc-window-note">
                 ☀ and ⌁ are NASA JPL Horizons sun and Earth geometry for

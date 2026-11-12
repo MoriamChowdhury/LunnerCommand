@@ -674,7 +674,9 @@ body {
 
   letter-spacing: 0.12em;
 
-  color: var(--dim);
+  color: #f1f4ff;
+
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.85);
 }
 
 .ao-scene .hud-tag b {
@@ -704,7 +706,7 @@ body {
       #ff5fa8
     );
 
-  color: #fff;
+  color: #3b0a26;
 
   font-family: var(--body);
   font-weight: 700;
@@ -792,7 +794,7 @@ body {
   border-radius: 10px;
 
   background:
-    rgba(255, 255, 255, 0.08);
+    rgba(8, 12, 32, 0.82);
 
   backdrop-filter: blur(4px);
 
@@ -810,7 +812,7 @@ body {
 }
 
 .ao-scene .comm-line span:last-child {
-  color: var(--dim);
+  color: #eef2ff;
   text-align: left;
 }
 
@@ -830,7 +832,7 @@ body {
   border: none;
   border-radius: 999px;
 
-  background: var(--red);
+  background: #d62839;
   color: white;
 
   font-family: var(--disp);
@@ -867,9 +869,9 @@ body {
 
   border-radius: 999px;
 
-  background: transparent;
+  background: rgba(8, 12, 32, 0.82);
 
-  color: var(--dim);
+  color: #e3e9f7;
 
   font-family: var(--body);
   font-weight: 600;
@@ -892,7 +894,13 @@ body {
 
   letter-spacing: 0.14em;
 
-  color: var(--dim);
+  padding: 6px 14px;
+
+  border-radius: 999px;
+
+  background: rgba(8, 12, 32, 0.82);
+
+  color: #e3e9f7;
 }
 
 
@@ -1540,9 +1548,9 @@ body {
   gap: 9px;
 
   color:
-    rgba(220, 235, 255, 0.72);
+    rgba(225, 238, 255, 0.92);
 
-  font-size: 8px;
+  font-size: 10px;
 
   letter-spacing: 0.18em;
 }
@@ -1595,11 +1603,11 @@ body {
 
 .earth-info-text strong {
   color: white;
-  font-size: 9px;
+  font-size: 11px;
 }
 
 .earth-info-text span {
-  opacity: 0.55;
+  opacity: 0.9;
 }
 
 
@@ -1692,9 +1700,9 @@ body {
   align-items: center;
 
   color:
-    rgba(215, 225, 240, 0.62);
+    rgba(225, 233, 245, 0.88);
 
-  font-size: 9px;
+  font-size: 10px;
 
   letter-spacing: 0.16em;
 }
@@ -1715,8 +1723,8 @@ body {
 }
 
 .hud-small {
-  font-size: 7px;
-  opacity: 0.5;
+  font-size: 9px;
+  opacity: 0.85;
 }
 
 .hud-center-line {
@@ -1728,7 +1736,7 @@ body {
 
 .hud-divider {
   color:
-    rgba(255, 255, 255, 0.22);
+    rgba(255, 255, 255, 0.55);
 }
 
 .communication-status {
@@ -2947,11 +2955,14 @@ body {
   white-space: nowrap;
 
   color:
-    rgba(225, 235, 245, 0.58);
+    rgba(245, 249, 252, 0.97);
 
-  font-size: 7px;
+  font-size: 9px;
 
   letter-spacing: 0.15em;
+
+  text-shadow:
+    0 1px 3px rgba(0, 0, 0, 0.9);
 }
 
 .astronaut-id-dot {
@@ -2984,10 +2995,16 @@ body {
 
   gap: 4px;
 
-  color:
-    rgba(220, 230, 240, 0.5);
+  padding: 8px 12px;
 
-  font-size: 7px;
+  border-radius: 4px;
+
+  background: rgba(5, 9, 16, 0.62);
+
+  color:
+    rgba(230, 238, 248, 0.92);
+
+  font-size: 9px;
 
   letter-spacing: 0.15em;
 }
@@ -3007,15 +3024,14 @@ body {
 }
 
 .lunar-location-panel strong {
-  color:
-    rgba(255, 255, 255, 0.82);
+  color: #fff;
 
-  font-size: 10px;
+  font-size: 11px;
 }
 
 .lunar-location-panel small {
-  font-size: 7px;
-  opacity: 0.65;
+  font-size: 9px;
+  opacity: 0.92;
 }
 
 
@@ -3042,8 +3058,8 @@ body {
   background:
     linear-gradient(
       90deg,
-      rgba(15, 28, 44, 0.14),
-      transparent
+      rgba(6, 12, 22, 0.74),
+      rgba(6, 12, 22, 0.5)
     );
 
   backdrop-filter: blur(2px);
@@ -3056,16 +3072,16 @@ body {
   margin: 5px 0;
 
   color:
-    rgba(180, 195, 215, 0.55);
+    rgba(205, 217, 234, 0.95);
 
-  font-size: 7px;
+  font-size: 9px;
 
   letter-spacing: 0.12em;
 }
 
 .telemetry-row strong {
   color:
-    rgba(140, 240, 180, 0.82);
+    rgba(150, 248, 190, 1);
 
   font-weight: 600;
 }
@@ -3260,9 +3276,9 @@ body {
 
 .speaker-information small {
   color:
-    rgba(160, 180, 205, 0.52);
+    rgba(190, 208, 230, 0.92);
 
-  font-size: 7px;
+  font-size: 9px;
 
   letter-spacing: 0.13em;
 }
@@ -3274,9 +3290,9 @@ body {
   gap: 8px;
 
   color:
-    rgba(150, 175, 205, 0.45);
+    rgba(185, 205, 228, 0.92);
 
-  font-size: 7px;
+  font-size: 9px;
 
   letter-spacing: 0.12em;
 }
@@ -3397,9 +3413,9 @@ body {
 
 .transmission-count {
   color:
-    rgba(130, 150, 175, 0.45);
+    rgba(185, 202, 225, 0.92);
 
-  font-size: 7px;
+  font-size: 9px;
 
   letter-spacing: 0.14em;
 }
@@ -3429,7 +3445,7 @@ body {
 
   font-family: var(--body);
 
-  font-size: 8px;
+  font-size: 10px;
   font-weight: 700;
 
   letter-spacing: 0.13em;
@@ -3473,7 +3489,7 @@ span {
 }
 
 .cinematic-next-button:disabled {
-  opacity: 0.28;
+  opacity: 0.55;
   cursor: default;
 }
 
@@ -3505,11 +3521,11 @@ span {
     rgba(30, 65, 95, 0.13);
 
   color:
-    rgba(220, 235, 250, 0.82);
+    rgba(235, 244, 253, 0.97);
 
   font-family: var(--body);
 
-  font-size: 7px;
+  font-size: 10px;
   font-weight: 700;
 
   letter-spacing: 0.08em;
@@ -3522,7 +3538,7 @@ span {
 
 .option-number {
   color: #5ccfff;
-  opacity: 0.6;
+  opacity: 1;
 }
 
 .cinematic-options button:hover {
@@ -3824,7 +3840,7 @@ span {
   }
 
   .communication-status {
-    font-size: 7px;
+    font-size: 9px;
   }
 
   .commander-wrapper {
@@ -3848,7 +3864,7 @@ span {
   .cinematic-next-button {
     padding: 7px 10px;
 
-    font-size: 7px;
+    font-size: 9px;
   }
 
   .cinematic-options {

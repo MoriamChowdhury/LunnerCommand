@@ -457,7 +457,7 @@ export default function MissionSimulation({
 
               <dl className="ms-facts">
                 <div>
-                  <dt>☀ Sunlight</dt>
+                  <dt>☀ Sunlight (year avg)</dt>
                   <dd>{site.sunlight}%</dd>
                 </div>
                 <div>

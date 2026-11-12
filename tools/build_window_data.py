@@ -1,10 +1,16 @@
 """
 build_window_data.py  -  real monthly Sun and Earth visibility for each Moonix site.
-Asks NASA JPL Horizons (public, free, no key) where the Sun and Earth are in the
-sky of a point on the Moon, every hour for one year, then counts the % of each
-month that each is above the horizon.
-FLAT HORIZON: no mountains or crater walls, so real values can be lower.
-Needs only Python 3. Output: src/data/launchWindowsScience.json
+
+Asks NASA JPL Horizons (public, free, no key) where the Sun and the Earth
+are in the sky of a point on the Moon, every hour for one year. Then it
+counts, for each month, the % of hours that the Sun / Earth is above the
+horizon. It also saves the height of the Sun and Earth every 3 hours so the
+game can draw the horizon chart.
+
+FLAT HORIZON: it assumes no mountains or crater walls.
+Needs only Python 3 (standard library). Run from the project folder:
+    python tools/build_window_data.py
+Output: src/data/launchWindowsScience.json
 """
 import argparse
 import calendar
@@ -18,7 +24,7 @@ from pathlib import Path
 
 API = "https://ssd.jpl.nasa.gov/api/horizons.api"
 SUN_RADIUS_DEG = 0.267      # upper limb of the Sun
-EARTH_RADIUS_DEG = 0.95     # Earth's disc as seen from the Moon
+EARTH_RADIUS_DEG = 0.95     # Earth's disc as seen from the Moon (about 1.9 deg wide)
 MONTHS = {m: i for i, m in enumerate(calendar.month_abbr) if m}
 
 
@@ -47,6 +53,7 @@ def ask_horizons(body, lon_east, lat, year):
 
 
 def parse_elevations(text):
+    """Return a list of (month_number, elevation_deg)."""
     if "$$SOE" not in text:
         raise RuntimeError("Horizons did not return data. Its message was:\n" + text[:1500])
     block = text.split("$$SOE", 1)[1].split("$$EOE", 1)[0]
@@ -77,6 +84,18 @@ def monthly_percent(rows, limb_deg):
         if el > -limb_deg:
             up[month] += 1
     return [round(100.0 * up[m] / tot[m], 1) if tot[m] else None for m in range(1, 13)]
+
+
+def elev_by_month(rows, limb_deg, step=3):
+    """Height (deg) of the body's top edge above the horizon, every `step` hours."""
+    months = [[] for _ in range(12)]
+    counters = [0] * 12
+    for month, el in rows:
+        i = month - 1
+        if counters[i] % step == 0:
+            months[i].append(round(el + limb_deg, 2))
+        counters[i] += 1
+    return months
 
 
 def main():
@@ -112,6 +131,9 @@ def main():
             "name": d["name"],
             "latitude": lat,
             "longitude_east": lon,
+            "elev_step_hours": 3,
+            "sun_elev_by_month": elev_by_month(sun_rows, SUN_RADIUS_DEG),
+            "earth_elev_by_month": elev_by_month(earth_rows, EARTH_RADIUS_DEG),
             "sun_by_month": sun,
             "earth_by_month": earth,
             "sun_year_mean": round(sum(sun) / 12, 1),
@@ -133,8 +155,7 @@ def main():
     for sid, v in out["sites"].items():
         print(f"{v['name']:<20}" + "".join(f"{x:6.0f}" for x in v["earth_by_month"])
               + f"{v['earth_year_mean']:7.0f}{v['lola_earth_mean']:7.0f}")
-    print("\nLOLA = long-term average WITH terrain (from siteScience.json). "
-          "Flat-horizon values should be equal or higher.")
+    print("\nLOLA = long-term average WITH terrain (from siteScience.json).")
 
 
 if __name__ == "__main__":

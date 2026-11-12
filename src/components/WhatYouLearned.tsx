@@ -11,6 +11,7 @@ import {
   type Shortage,
 } from '../data/missionEngine'
 
+import MissionReplay from './MissionReplay'
 import VoiceControl from './VoiceControl'
 import { saidAny, useMissionVoice } from './useMissionVoice'
 
@@ -395,6 +396,8 @@ export default function WhatYouLearned({
             )
           })}
         </ol>
+
+        <MissionReplay siteId={result.siteId} windowId={result.windowId} />
 
         {/* ===================== FOOTER ===================== */}
 

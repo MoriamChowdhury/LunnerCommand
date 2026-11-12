@@ -1,0 +1,90 @@
+.sc-box {
+  margin: 18px 0 6px;
+  padding: 14px 16px 12px;
+  border: 1px solid rgba(114, 232, 255, 0.22);
+  border-radius: 10px;
+  background: rgba(8, 18, 28, 0.72);
+}
+
+.sc-head {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin-bottom: 10px;
+}
+
+.sc-head small {
+  font-size: 10px;
+  letter-spacing: 0.18em;
+  color: #72e8ff;
+}
+
+.sc-head strong {
+  font-size: 15px;
+  font-weight: 600;
+  color: #e8f1f7;
+}
+
+.sc-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.sc-card {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 12px 13px;
+  text-align: left;
+  color: #cfdbe3;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 8px;
+  cursor: pointer;
+  transition: border-color 0.15s, background 0.15s;
+}
+
+.sc-card:hover {
+  border-color: rgba(114, 232, 255, 0.5);
+}
+
+.sc-card.is-on {
+  border-color: #72e8ff;
+  background: rgba(114, 232, 255, 0.1);
+}
+
+.sc-card b {
+  font-size: 12px;
+  letter-spacing: 0.16em;
+  color: #fff;
+}
+
+.sc-card.is-on b {
+  color: #72e8ff;
+}
+
+.sc-nasa {
+  font-size: 13px;
+  color: #e5bd72;
+}
+
+.sc-card em {
+  font-style: normal;
+  font-size: 12px;
+  line-height: 1.45;
+  color: #9fb2bf;
+}
+
+.sc-note {
+  margin: 10px 0 0;
+  font-size: 11px;
+  line-height: 1.5;
+  color: #7f93a1;
+}
+
+@media (max-width: 640px) {
+  .sc-grid {
+    grid-template-columns: 1fr;
+  }
+}

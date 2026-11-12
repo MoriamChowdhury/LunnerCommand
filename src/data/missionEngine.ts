@@ -5,7 +5,12 @@
    result, so players can learn *why* a mission worked.
    ========================================================= */
 
-import { lunarSites, type LunarSite } from './lunarSites'
+import {
+  FLOOR_SCIENCE_BONUS,
+  isDarkFloor,
+  resolveSite,
+  type LunarSite,
+} from './lunarSites'
 import { launchWindows, windowFor, type LaunchWindow } from './launchWindows'
 import {
   EQUIPMENT_BUDGET,
@@ -106,8 +111,7 @@ export const SCIENCE_GOAL = 25
 
 /* ---------------- lookups ---------------- */
 
-export const findSite = (id: string): LunarSite =>
-  lunarSites.find((s) => s.id === id) ?? lunarSites[0]
+export const findSite = (id: string): LunarSite => resolveSite(id)
 
 export const findWindow = (id: string): LaunchWindow =>
   launchWindows.find((w) => w.id === id) ?? launchWindows[0]
@@ -185,7 +189,10 @@ export function getSupply(
     power: sum('power'),
     comms: baseComms + sum('comms'),
     safety: (RISK_SAFETY[site.risk] ?? 6) + sum('safety'),
-    science: (ICE_SCIENCE[site.ice] ?? 6) + sum('science'),
+    science:
+      (ICE_SCIENCE[site.ice] ?? 6) +
+      sum('science') +
+      (isDarkFloor(site) ? FLOOR_SCIENCE_BONUS : 0),
   }
 }
 

@@ -16,6 +16,7 @@ import {
   type SystemKey,
 } from '../data/missionEngine'
 
+import MissionReplay from './MissionReplay'
 import VoiceControl from './VoiceControl'
 import { saidAny, useMissionVoice } from './useMissionVoice'
 
@@ -421,8 +422,15 @@ export default function MissionFailure({
                   (row.have / (row.need * 1.5)) * 100
                 )
                 const needPct = (1 / 1.5) * 100
+                /* only items the player can really afford and carry */
+                const missing = row.need - row.have
                 const helpers = candidates
-                  .filter((item) => repairValue(item, result.siteId, result.windowId)[row.key])
+                  .filter(
+                    (item) =>
+                      repairValue(item, result.siteId, result.windowId)[row.key] &&
+                      item.cost <= live.remainingBudget &&
+                      live.massUsed + item.mass <= MASS_LIMIT
+                  )
                   .sort((a, b) => a.cost - b.cost)
 
                 return (
@@ -455,16 +463,26 @@ export default function MissionFailure({
                     {!repairing && (
                       <>
                         <p>{row.key === 'power' ? powerHelp : SHORTAGE_HELP[row.key]}</p>
-                        {helpers.length > 0 && (
+                        {!row.ok && helpers.length > 0 && (
                           <div className="mf-helpers">
                             <span>WHAT HELPS:</span>
-                            {helpers.map((item) => (
-                              <b key={item.id}>
-                                {item.icon} {item.shortName} · $
-                                {item.cost}M
-                              </b>
-                            ))}
+                            {helpers.map((item) => {
+                              const add =
+                                repairValue(item, result.siteId, result.windowId)[row.key] ?? 0
+                              return (
+                                <b key={item.id}>
+                                  {item.icon} {item.shortName} · ${item.cost}M · +{add}
+                                  {add >= missing ? ' ✓ fixes it' : ' (helps a little)'}
+                                </b>
+                              )
+                            })}
                           </div>
+                        )}
+                        {!row.ok && helpers.length === 0 && (
+                          <p>
+                            Nothing you can afford and carry fixes this. Try a
+                            different month, spot or site.
+                          </p>
                         )}
                       </>
                     )}
@@ -625,6 +643,8 @@ export default function MissionFailure({
             )}
           </div>
         )}
+
+        <MissionReplay siteId={result.siteId} windowId={result.windowId} />
 
         {/* ===================== FOOTER ===================== */}
 

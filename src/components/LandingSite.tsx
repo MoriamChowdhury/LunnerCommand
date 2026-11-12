@@ -14,10 +14,16 @@ import type {
 import {
   DATA_STATUS,
   STATUS_LABEL,
+  baseSiteId,
   lunarSites,
+  resolveSite,
+  spotOfId,
+  withSpot,
   type LunarSite,
   type SiteField,
 } from '../data/lunarSites'
+
+import SpotChoice from './SpotChoice'
 
 import './LandingSite.css'
 
@@ -223,14 +229,17 @@ function LandingSite({
   const pointerFrame = useRef(0)
   const scrollFrame = useRef(0)
 
-  const selected =
+  /* the chosen site, already switched to the chosen spot (rim or floor) */
+  const selected = resolveSite(selectedSite)
+
+  const baseSelected =
     lunarSites.find(
-      (site) => site.id === selectedSite
+      (site) => site.id === baseSiteId(selected.id)
     ) || lunarSites[0]
 
   const selectedIndex =
     lunarSites.findIndex(
-      (site) => site.id === selected.id
+      (site) => site.id === baseSelected.id
     )
 
   const formattedIndex =
@@ -314,7 +323,7 @@ function LandingSite({
   }
 
   const chooseSite = (site: LunarSite) => {
-    onSelectSite(site.id)
+    onSelectSite(withSpot(site.id, spotOfId(selectedSite)))
     setTranscript(`${site.name} selected`)
     setVoiceStatus(`SITE ${site.code} SELECTED`)
   }
@@ -408,7 +417,7 @@ function LandingSite({
           )
 
         if (target) {
-          onSelectSite(target.id)
+          onSelectSite(withSpot(target.id, spotOfId(selectedSite)))
 
           setTranscript(
             `Selected ${target.name}`
@@ -1574,7 +1583,7 @@ function LandingSite({
               {/* interactive landing-zone markers */}
               {lunarSites.map((site) => {
                 const p = toStage(markerPosition(site))
-                const active = site.id === selected.id
+                const active = site.id === baseSelected.id
 
                 return (
                   <button
@@ -1722,7 +1731,7 @@ function LandingSite({
               {lunarSites.map(
                 (site, index) => {
                   const active =
-                    selected.id === site.id
+                    baseSelected.id === site.id
 
                   return (
                     <button
@@ -1836,6 +1845,14 @@ function LandingSite({
                 </small>
               </div>
             </div>
+
+            <SpotChoice
+              site={baseSelected}
+              spot={spotOfId(selected.id)}
+              onChange={(spot) =>
+                onSelectSite(withSpot(selected.id, spot))
+              }
+            />
 
             {/* =================================================
                 MOON MAP
@@ -2065,16 +2082,28 @@ function LandingSite({
                   </article>
                 </div>
 
-                <p className="ls-data-note">
-                  <b>NASA DATA</b> · LRO/LOLA long-term averages, not monthly
-                  values and not a landing-site decision. The numbers above
-                  are the best spot on {selected.name} (within{' '}
-                  {selected.searchKm} km of its centre, rim included; this
-                  spot is {selected.spotKm} km from the centre). At the
-                  centre itself, within about 10 km, the average is Sun{' '}
-                  {selected.floorSun}% · Earth {selected.floorEarth}%.
-                  Source: NASA PGDA · Mazarico et al. (2011).
+                {spotOfId(selected.id) === 'floor' ? (
+                  <p className="ls-data-note">
+                    <b>NASA DATA</b> · LRO/LOLA long-term averages at the
+                    crater floor (the centre of {baseSelected.name}, about 10
+                    km), not monthly values: Sun {selected.sunlight}% · Earth{' '}
+                    {selected.communication}%. On a dark floor the
+                    temperature, ice and landing risk shown here are{' '}
+                    <b>game rules</b>, not NASA data. Source: NASA PGDA ·
+                    Mazarico et al. (2011).
+                  </p>
+                ) : (
+                  <p className="ls-data-note">
+                    <b>NASA DATA</b> · LRO/LOLA long-term averages, not monthly
+                    values and not a landing-site decision. The numbers above
+                    are the best spot on {selected.name} (within{' '}
+                    {selected.searchKm} km of its centre, rim included; this
+                    spot is {selected.spotKm} km from the centre). At the
+                    centre itself, within about 10 km, the average is Sun{' '}
+                    {selected.floorSun}% · Earth {selected.floorEarth}%.
+                    Source: NASA PGDA · Mazarico et al. (2011).
                 </p>
+                )}
 
                 <div className="environment-grid">
 

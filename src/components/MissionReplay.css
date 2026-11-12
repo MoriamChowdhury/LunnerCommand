@@ -1,0 +1,32 @@
+.mr-box {
+  margin: 24px 0 8px;
+  padding: 18px 20px 6px;
+  border: 1px solid rgba(229, 189, 114, 0.35);
+  background: rgba(10, 18, 28, 0.7);
+}
+
+.mr-head small {
+  letter-spacing: 0.18em;
+  font-size: 11px;
+  color: #e5bd72;
+}
+
+.mr-head h2 {
+  margin: 4px 0 8px;
+  font-size: 22px;
+  color: #e8f4ff;
+}
+
+.mr-text {
+  margin: 0 0 4px;
+  font-size: 15px;
+  line-height: 1.5;
+  color: rgba(232, 244, 255, 0.85);
+}
+
+.mr-note {
+  margin: 8px 0 14px;
+  font-size: 12px;
+  line-height: 1.5;
+  color: rgba(232, 244, 255, 0.55);
+}

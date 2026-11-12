@@ -12,6 +12,7 @@ import ResultsSummary from './components/ResultsSummary'
 import WhatYouLearned from './components/WhatYouLearned'
 import MissionJournal from './components/MissionJournal'
 import ThanksPage from './components/ThanksPage'
+import DataSources from './components/DataSources'
 
 import { lunarSites } from './data/lunarSites'
 import { EQUIPMENT_BUDGET } from './data/equipment'
@@ -360,4 +361,14 @@ function App() {
   )
 }
 
-export default App
+/* the DATA SOURCES button is shown on every screen */
+function Root() {
+  return (
+    <>
+      <App />
+      <DataSources />
+    </>
+  )
+}
+
+export default Root

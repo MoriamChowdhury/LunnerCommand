@@ -255,6 +255,84 @@ export const lunarSites: LunarSite[] = [
 ]
 
 /* =========================================================
+   LANDING SPOT: RIM or FLOOR
+   Every crater offers two kinds of spot, both from NASA LRO/LOLA:
+   - RIM   = the best-lit spot on the crater (the numbers the game
+             always used).
+   - FLOOR = the crater centre (~10 km average). Often permanently
+             dark, so Sun and Earth are very low, but this is where
+             the water ice is.
+   The floor is stored as a "variant" of the site: its id ends in
+   ":floor". Use resolveSite(id) to get the right site.
+   The extra floor rules (colder, riskier landing, more ice) are
+   GAME RULES, not NASA data.
+   ========================================================= */
+
+export type Spot = 'rim' | 'floor'
+
+export const FLOOR_SUFFIX = ':floor'
+
+export const baseSiteId = (id: string) =>
+  id.endsWith(FLOOR_SUFFIX) ? id.slice(0, -FLOOR_SUFFIX.length) : id
+
+export const spotOfId = (id: string): Spot =>
+  id.endsWith(FLOOR_SUFFIX) ? 'floor' : 'rim'
+
+export const withSpot = (id: string, spot: Spot) =>
+  baseSiteId(id) + (spot === 'floor' ? FLOOR_SUFFIX : '')
+
+/* extra science for samples taken in the permanently dark floor (GAME RULE) */
+export const FLOOR_SCIENCE_BONUS = 4
+
+/* game value: permanently shadowed floors stay colder than about -170 C */
+const FLOOR_TEMPERATURE = '-170°C'
+
+const ICE_STEPS = ['LOW', 'MEDIUM', 'HIGH', 'VERY HIGH']
+const RISK_STEPS = ['LOW', 'MEDIUM', 'HIGH']
+
+const oneStepUp = (steps: string[], value: string) => {
+  const i = steps.indexOf(value)
+  return i < 0 ? value : steps[Math.min(steps.length - 1, i + 1)]
+}
+
+function floorVariant(site: LunarSite): LunarSite {
+  /* a floor that gets almost no Sun is "dark": colder, riskier, icier */
+  const dark = site.floorSun < SUN_USABLE
+
+  return {
+    ...site,
+    id: site.id + FLOOR_SUFFIX,
+    name: `${site.name} floor`,
+
+    /* NASA LRO/LOLA average at the crater centre */
+    sunlight: site.floorSun,
+    communication: site.floorEarth,
+    score: Math.round((site.floorSun + site.floorEarth) / 2),
+
+    /* game rules (only for a dark floor) */
+    temperature: dark ? FLOOR_TEMPERATURE : site.temperature,
+    ice: dark ? oneStepUp(ICE_STEPS, site.ice) : site.ice,
+    risk: dark ? oneStepUp(RISK_STEPS, site.risk) : site.risk,
+
+    description: dark
+      ? 'The dark crater floor. Almost no sunlight and a weak Earth link, but this is where water ice can survive. Solar panels will not help here.'
+      : site.description,
+  }
+}
+
+/* a crater floor that is (almost) permanently dark */
+export const isDarkFloor = (site: LunarSite) =>
+  spotOfId(site.id) === 'floor' && site.sunlight < SUN_USABLE
+
+/* the right site for an id such as "shackleton" (rim) or "shackleton:floor" */
+export function resolveSite(id: string): LunarSite {
+  const base =
+    lunarSites.find((s) => s.id === baseSiteId(id)) ?? lunarSites[0]
+
+  return spotOfId(id) === 'floor' ? floorVariant(base) : base
+}
+
+/* =========================================================
    DATA STATUS
    Honest labels: which values come from NASA / IAU sources and
    which are Moonix game estimates. Step 3 replaces estimates
